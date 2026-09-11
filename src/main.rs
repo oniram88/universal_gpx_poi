@@ -1,6 +1,6 @@
 use std::env;
 use std::error::Error;
-use std::fs;
+use std::fs::{self, OpenOptions};
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 
@@ -46,16 +46,25 @@ fn run() -> Result<(), Box<dyn Error>> {
     let (output, report) = convert_gpx(&input, target)?;
     let output_path = output_path_for(&input_path, target);
 
-    // Evita di troncare un file esistente: le conversioni ripetute devono
-    // essere intenzionali e il GPX sorgente non viene mai sovrascritto.
-    if output_path.exists() {
-        return Err(format!(
-            "il file di output '{}' esiste gia'; rinominalo o rimuovilo prima di riprovare",
-            output_path.display()
-        )
-        .into());
-    }
-    fs::write(&output_path, output)?;
+    // `create_new` combina controllo e creazione in un'unica operazione del
+    // filesystem, evitando che un altro processo possa creare e farci
+    // sovrascrivere il file fra una chiamata a `exists` e la scrittura.
+    let mut output_file = match OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&output_path)
+    {
+        Ok(file) => file,
+        Err(error) if error.kind() == io::ErrorKind::AlreadyExists => {
+            return Err(format!(
+                "il file di output '{}' esiste gia'; rinominalo o rimuovilo prima di riprovare",
+                output_path.display()
+            )
+            .into());
+        }
+        Err(error) => return Err(error.into()),
+    };
+    output_file.write_all(output.as_bytes())?;
 
     println!(
         "Creato {} ({} waypoint, {} tradotti, {} senza tipo esplicito o gia' generici).",

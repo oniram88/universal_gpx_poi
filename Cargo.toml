@@ -3,6 +3,7 @@ name = "universal_gpx_poi"
 version = "0.1.0"
 edition = "2024"
 description = "Converte i tipi di POI nei file GPX fra Garmin e Suunto"
-exclude = ["./test_data"]
+exclude = ["/test_data/**"]
+
 [dependencies]
 quick-xml = "0.42.0"

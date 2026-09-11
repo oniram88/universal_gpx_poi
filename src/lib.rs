@@ -62,6 +62,17 @@ pub fn convert_gpx(
                     writer.write_event(event).map_err(ConversionError::Write)?;
                 }
             }
+            Event::Empty(start) if depth == 1 && is_local_name(&start, "wpt") => {
+                let qualified_name = start.name().as_ref().to_owned();
+                let waypoint = vec![
+                    Event::Start(start),
+                    Event::End(BytesEnd::new(&qualified_name).into_owned()),
+                ];
+                let converted = convert_waypoint(waypoint, target, &mut report)?;
+                for event in converted {
+                    writer.write_event(event).map_err(ConversionError::Write)?;
+                }
+            }
             Event::Eof => break,
             Event::Start(start) => {
                 depth += 1;
@@ -404,5 +415,19 @@ mod tests {
         let (converted, report) = convert_gpx(source, Vendor::Suunto).unwrap();
         assert_eq!(converted, source);
         assert_eq!(report.waypoints, 0);
+    }
+
+    #[test]
+    fn expands_and_converts_self_closing_waypoints() {
+        let source =
+            r#"<gpx><wpt lat="1" lon="2"/><g:wpt xmlns:g="urn:gpx" lat="3" lon="4"/></gpx>"#;
+        let (converted, report) = convert_gpx(source, Vendor::Suunto).unwrap();
+        assert!(converted.contains(r#"<wpt lat="1" lon="2"><type>Waypoint</type></wpt>"#));
+        assert!(converted.contains(
+            r#"<g:wpt xmlns:g="urn:gpx" lat="3" lon="4"><g:type>Waypoint</g:type></g:wpt>"#
+        ));
+        assert_eq!(report.waypoints, 2);
+        assert_eq!(report.translated, 0);
+        assert_eq!(report.fallback_waypoints, 0);
     }
 }
