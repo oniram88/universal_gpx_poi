@@ -173,7 +173,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
         ["marine reserve"]
     ),
     poi!("avalanche", "Danger Area", "Avalanche", []),
-    poi!("danger", "Danger Area", "Danger", ["hazard"]),
+    poi!("danger", "Danger Area", "Danger", ["hazard", "alert"]),
     poi!(
         "aid_station",
         "Medical Facility",
