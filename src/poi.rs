@@ -80,7 +80,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     ),
     poi!(
         "food",
-        "Restaurant",
+        "Picnic Area",
         "Food",
         ["bar", "picnic area", "picnic spot", "picnic site"]
     ),
