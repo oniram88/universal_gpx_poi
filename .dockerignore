@@ -1,0 +1,10 @@
+.git
+.gitignore
+.idea
+target
+test_data
+web/pkg
+Dockerfile*
+README.md
+cog.toml
+LICENSE

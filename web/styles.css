@@ -1,0 +1,97 @@
+:root {
+  color-scheme: light;
+  --ink: #16261f;
+  --muted: #67736d;
+  --paper: #f5f3ed;
+  --card: #fffcf5;
+  --line: #d9ddd3;
+  --green: #216449;
+  --green-dark: #174936;
+  --lime: #d8ed9c;
+  --error: #9b332a;
+  font-family: "Avenir Next", Avenir, Inter, system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 15%, rgba(216, 237, 156, .3), transparent 28rem),
+    linear-gradient(180deg, #f8f6f0 0%, var(--paper) 100%);
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+}
+
+.shell { width: min(920px, calc(100% - 40px)); margin: 0 auto; padding: 48px 0 36px; }
+.hero { padding: 0 10px 44px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 700; letter-spacing: -.03em; }
+.brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: var(--green); }
+.brand-mark svg { width: 20px; fill: none; stroke: #fff; stroke-width: 1.8; }
+.brand-mark circle { fill: var(--lime); stroke: none; }
+.eyebrow { margin-top: 78px; color: var(--green); font: 500 12px/1 ui-monospace, monospace; letter-spacing: .15em; text-transform: uppercase; }
+h1 { max-width: 800px; margin: 18px 0 22px; font-size: clamp(46px, 8.3vw, 82px); line-height: .98; letter-spacing: -.065em; }
+h1 em { color: var(--green); font-family: Georgia, serif; font-weight: 400; }
+.intro { max-width: 590px; margin: 0; color: var(--muted); font-size: clamp(17px, 2.2vw, 20px); line-height: 1.65; }
+
+.converter { padding: 36px; border: 1px solid var(--line); border-radius: 24px; background: rgba(255, 252, 245, .88); box-shadow: 0 24px 80px rgba(32, 59, 47, .08); backdrop-filter: blur(10px); }
+.section-heading { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 28px; }
+.step { display: grid; flex: 0 0 34px; height: 34px; place-items: center; border-radius: 50%; color: #fff; background: var(--green); font: 500 11px/1 ui-monospace, monospace; }
+h2 { margin: 1px 0 7px; font-size: 21px; letter-spacing: -.035em; }
+.section-heading p, .privacy p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+.drop-zone { display: flex; min-height: 218px; align-items: center; justify-content: center; flex-direction: column; border: 1.5px dashed #9aaa9e; border-radius: 16px; cursor: pointer; background: rgba(255,255,255,.45); transition: border-color .2s, background .2s, transform .2s; }
+.drop-zone:hover, .drop-zone.is-dragging { border-color: var(--green); background: rgba(216, 237, 156, .18); transform: translateY(-2px); }
+.drop-zone.has-file { border-style: solid; border-color: var(--green); background: rgba(216, 237, 156, .14); }
+.drop-zone input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.upload-icon { display: grid; width: 52px; height: 52px; margin-bottom: 17px; place-items: center; border-radius: 50%; color: var(--green); background: var(--lime); }
+.upload-icon svg { width: 25px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.drop-zone strong { max-width: calc(100% - 40px); overflow: hidden; font-size: 17px; text-overflow: ellipsis; white-space: nowrap; }
+.drop-zone > span:last-child { margin-top: 7px; color: var(--muted); font-size: 14px; }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+.field { display: flex; flex-direction: column; gap: 9px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.select-wrap { position: relative; }
+.select-wrap::after { position: absolute; top: 50%; right: 18px; width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; content: ""; pointer-events: none; transform: translateY(-70%) rotate(45deg); }
+select, button { width: 100%; height: 58px; border-radius: 12px; font: 600 15px/1 "Avenir Next", Avenir, Inter, system-ui, sans-serif; }
+select { appearance: none; padding: 0 48px 0 18px; border: 1px solid var(--line); color: var(--ink); background: #fff; }
+button { align-self: end; display: flex; align-items: center; justify-content: center; gap: 10px; border: 0; color: #fff; cursor: pointer; background: var(--green); transition: background .2s, transform .2s, opacity .2s; }
+button:hover:not(:disabled) { background: var(--green-dark); transform: translateY(-1px); }
+button:disabled { cursor: not-allowed; opacity: .38; }
+button svg { width: 20px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+
+.status { margin-top: 18px; padding: 14px 16px; border-radius: 10px; color: var(--green-dark); background: #eef5de; font-size: 14px; line-height: 1.5; }
+.status.error { color: var(--error); background: #fae9e5; }
+.privacy { display: grid; grid-template-columns: auto 1fr; gap: 18px; margin: 28px 10px 0; padding: 28px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.privacy-icon { display: grid; width: 43px; height: 43px; place-items: center; color: var(--green); }
+.privacy-icon svg { width: 30px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
+.privacy h2 { margin-top: 0; font-size: 17px; }
+.privacy p { font-size: 14px; }
+footer { display: flex; width: min(920px, calc(100% - 40px)); align-items: center; gap: 14px; margin: 0 auto; padding: 0 10px 40px; color: #8b948f; font: 500 10px/1 ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; }
+.footer-rule { width: 24px; height: 1px; background: var(--line); }
+
+:focus-visible { outline: 3px solid #86a935; outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .shell { width: min(100% - 24px, 920px); padding-top: 24px; }
+  .hero { padding-bottom: 32px; }
+  .eyebrow { margin-top: 54px; }
+  .converter { padding: 22px; border-radius: 19px; }
+  .field-row { grid-template-columns: 1fr; }
+  .drop-zone { min-height: 190px; }
+  .privacy { margin-inline: 0; padding-inline: 12px; }
+  footer { width: calc(100% - 24px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}

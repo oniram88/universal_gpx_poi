@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Converti i POI di un file GPX tra Garmin e Suunto direttamente nel browser."
+    />
+    <title>Universal GPX POI</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <a class="brand" href="./" aria-label="Universal GPX POI, pagina iniziale">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="img">
+              <path d="M16 3.5a8.5 8.5 0 0 0-8.5 8.5c0 6.3 8.5 16.5 8.5 16.5S24.5 18.3 24.5 12A8.5 8.5 0 0 0 16 3.5Z" />
+              <circle cx="16" cy="12" r="3.25" />
+            </svg>
+          </span>
+          <span>Universal GPX POI</span>
+        </a>
+        <div class="eyebrow">Garmin ↔ Suunto</div>
+        <h1>I tuoi waypoint,<br /><em>nel formato giusto.</em></h1>
+        <p class="intro">
+          Carica un file GPX e converti i tipi di POI in pochi secondi.
+          Il file non lascia mai il tuo dispositivo.
+        </p>
+      </header>
+
+      <section class="converter" aria-labelledby="converter-title">
+        <div class="section-heading">
+          <span class="step">01</span>
+          <div>
+            <h2 id="converter-title">Converti il file</h2>
+            <p>Seleziona il GPX di partenza e il dispositivo di destinazione.</p>
+          </div>
+        </div>
+
+        <form id="converter-form" novalidate>
+          <label class="drop-zone" id="drop-zone" for="source-file">
+            <input id="source-file" name="source-file" type="file" accept=".gpx,application/gpx+xml,application/xml,text/xml" />
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" /></svg>
+            </span>
+            <strong id="file-label">Trascina qui il tuo file GPX</strong>
+            <span id="file-hint">oppure fai clic per selezionarlo</span>
+          </label>
+
+          <div class="field-row">
+            <label class="field" for="target">
+              <span>Destinazione</span>
+              <span class="select-wrap">
+                <select id="target" name="target">
+                  <option value="suunto">Suunto</option>
+                  <option value="garmin">Garmin</option>
+                </select>
+              </span>
+            </label>
+
+            <button id="convert-button" type="submit" disabled>
+              <span>Converti e scarica</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+            </button>
+          </div>
+
+          <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+        </form>
+      </section>
+
+      <section class="privacy" aria-label="Informazioni sulla privacy">
+        <div class="privacy-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 21s8-3.7 8-10V5l-8-3-8 3v6c0 6.3 8 10 8 10Z" /><path d="m8.5 11.5 2.2 2.2 4.8-5" /></svg>
+        </div>
+        <div>
+          <h2>Privato per davvero</h2>
+          <p>La conversione avviene interamente nel browser grazie a WebAssembly. Nessun upload, nessun server, nessuna copia dei tuoi percorsi.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>GPX 1.1</span>
+      <span class="footer-rule"></span>
+      <span>Elaborazione locale</span>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

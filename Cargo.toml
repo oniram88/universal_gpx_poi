@@ -5,5 +5,11 @@ edition = "2024"
 description = "Converte i tipi di POI nei file GPX fra Garmin e Suunto"
 exclude = ["/test_data/**"]
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
 quick-xml = "0.42.0"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2.105"

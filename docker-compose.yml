@@ -1,0 +1,8 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: universal-gpx-poi:local
+    ports:
+      - "${PORT:-8080}:80"

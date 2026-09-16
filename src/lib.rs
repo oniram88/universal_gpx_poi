@@ -9,12 +9,84 @@ use quick_xml::escape::unescape;
 use quick_xml::events::{BytesEnd, BytesStart, BytesText, Event};
 use quick_xml::{Reader, Writer};
 
+#[cfg(target_arch = "wasm32")]
+use wasm_bindgen::prelude::*;
+
 #[derive(Debug, Default, PartialEq, Eq)]
 pub struct ConversionReport {
     pub waypoints: usize,
     pub translated: usize,
     pub fallback_waypoints: usize,
     pub unknown_values: BTreeSet<String>,
+}
+
+/// Risultato esposto alla pagina web tramite WebAssembly.
+///
+/// I getter clonano soltanto le due stringhe richieste da JavaScript; il core
+/// di conversione resta lo stesso usato dalla CLI.
+#[cfg(target_arch = "wasm32")]
+#[wasm_bindgen]
+pub struct WebConversion {
+    output: String,
+    waypoints: usize,
+    translated: usize,
+    fallback_waypoints: usize,
+    unknown_values: String,
+}
+
+#[cfg(target_arch = "wasm32")]
+#[wasm_bindgen]
+impl WebConversion {
+    #[wasm_bindgen(getter)]
+    pub fn output(&self) -> String {
+        self.output.clone()
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn waypoints(&self) -> usize {
+        self.waypoints
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn translated(&self) -> usize {
+        self.translated
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn fallback_waypoints(&self) -> usize {
+        self.fallback_waypoints
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn unknown_values(&self) -> String {
+        self.unknown_values.clone()
+    }
+}
+
+/// Binding minimale per il browser. `target` accetta `garmin` o `suunto`.
+#[cfg(target_arch = "wasm32")]
+#[wasm_bindgen]
+pub fn convert_gpx_for_web(input: &str, target: &str) -> Result<WebConversion, JsValue> {
+    let vendor = match target.trim().to_ascii_lowercase().as_str() {
+        "garmin" => Vendor::Garmin,
+        "suunto" => Vendor::Suunto,
+        _ => return Err(JsValue::from_str("Destinazione non valida")),
+    };
+
+    let (output, report) =
+        convert_gpx(input, vendor).map_err(|error| JsValue::from_str(&error.to_string()))?;
+
+    Ok(WebConversion {
+        output,
+        waypoints: report.waypoints,
+        translated: report.translated,
+        fallback_waypoints: report.fallback_waypoints,
+        unknown_values: report
+            .unknown_values
+            .into_iter()
+            .collect::<Vec<_>>()
+            .join(", "),
+    })
 }
 
 #[derive(Debug)]

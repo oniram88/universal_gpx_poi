@@ -3,7 +3,7 @@
 Convertitore CLI dei waypoint/POI contenuti nei file GPX fra i vocabolari
 usati da Garmin e Suunto.
 
-## Uso
+## Uso da CLI
 
 ```bash
 cargo run -- test_data/super-baldo.gpx
@@ -16,6 +16,58 @@ Il programma chiede il formato di destinazione e crea, accanto all'originale:
 
 Il sorgente non viene sovrascritto. I campi e le estensioni GPX non relative ai
 POI vengono conservati.
+
+## Uso dal browser
+
+La pagina in `web/` usa lo stesso core Rust della CLI, compilato in WebAssembly.
+Il GPX viene letto, convertito e scaricato interamente nel browser: non viene
+inviato a un server.
+
+Installa una volta `wasm-pack`, quindi compila e avvia un server statico:
+
+```bash
+cargo install wasm-pack
+npm run build
+npm run serve
+```
+
+Apri <http://localhost:8080>. La build genera in `web/pkg/` il modulo
+JavaScript e il file `.wasm` pronti per la pubblicazione su qualunque hosting
+statico. Non aprire direttamente `web/index.html` tramite `file://`, perché i
+browser caricano i moduli WebAssembly via HTTP.
+
+## Container Docker
+
+L'immagine usa una build multi-stage: il primo stage compila il core Rust in
+WebAssembly, mentre l'immagine finale contiene soltanto Nginx e i file statici
+della pagina.
+
+```bash
+docker build -t universal-gpx-poi .
+docker run --rm -p 8080:80 universal-gpx-poi
+```
+
+Apri <http://localhost:8080>. La conversione continua ad avvenire nel browser:
+il container serve soltanto HTML, CSS, JavaScript e WebAssembly e non riceve il
+contenuto dei file GPX.
+
+In alternativa, usa Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+La porta predefinita e' `8080`; per cambiarla, ad esempio in `3000`:
+
+```bash
+PORT=3000 docker compose up --build
+```
+
+Per arrestare e rimuovere lo stack:
+
+```bash
+docker compose down
+```
 
 ## Dizionario POI
 
