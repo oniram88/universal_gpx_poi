@@ -93,7 +93,8 @@ form.addEventListener("submit", async (event) => {
 
     let message = `Fatto: ${result.waypoints} waypoint, ${result.translated} tradotti.`;
     if (result.unknown_values) {
-      message += ` Valori non riconosciuti convertiti in Waypoint: ${result.unknown_values}.`;
+      const fallback = target.value === "suunto" ? "POI" : "Waypoint";
+      message += ` Valori non riconosciuti convertiti in ${fallback}: ${result.unknown_values}.`;
     }
     showStatus(message);
     result.free();

@@ -449,7 +449,7 @@ mod tests {
         let (converted, report) = convert_gpx(GPX, Vendor::Suunto).unwrap();
         assert!(converted.contains("<sym>Drinking Water</sym>"));
         assert!(converted.contains("<type>Water</type>"));
-        assert!(converted.contains("<type>Waypoint</type>"));
+        assert!(converted.contains("<type>POI</type>"));
         assert!(converted.contains("<trkpt lat=\"1\" lon=\"2\"><type>non modificare</type>"));
         assert_eq!(report.waypoints, 2);
         assert_eq!(report.translated, 1);
@@ -470,7 +470,7 @@ mod tests {
     fn unknown_values_fall_back_and_are_reported() {
         let source = r#"<gpx><wpt lat="1" lon="2"><sym>Alien base</sym></wpt></gpx>"#;
         let (converted, report) = convert_gpx(source, Vendor::Suunto).unwrap();
-        assert!(converted.contains("<type>Waypoint</type>"));
+        assert!(converted.contains("<type>POI</type>"));
         assert!(report.unknown_values.contains("Alien base"));
     }
 
@@ -494,10 +494,12 @@ mod tests {
         let source =
             r#"<gpx><wpt lat="1" lon="2"/><g:wpt xmlns:g="urn:gpx" lat="3" lon="4"/></gpx>"#;
         let (converted, report) = convert_gpx(source, Vendor::Suunto).unwrap();
-        assert!(converted.contains(r#"<wpt lat="1" lon="2"><type>Waypoint</type></wpt>"#));
-        assert!(converted.contains(
-            r#"<g:wpt xmlns:g="urn:gpx" lat="3" lon="4"><g:type>Waypoint</g:type></g:wpt>"#
-        ));
+        assert!(converted.contains(r#"<wpt lat="1" lon="2"><type>POI</type></wpt>"#));
+        assert!(
+            converted.contains(
+                r#"<g:wpt xmlns:g="urn:gpx" lat="3" lon="4"><g:type>POI</g:type></g:wpt>"#
+            )
+        );
         assert_eq!(report.waypoints, 2);
         assert_eq!(report.translated, 0);
         assert_eq!(report.fallback_waypoints, 0);

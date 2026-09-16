@@ -74,8 +74,12 @@ fn run() -> Result<(), Box<dyn Error>> {
         report.waypoints - report.translated - report.fallback_waypoints,
     );
     if !report.unknown_values.is_empty() {
+        let fallback = match target {
+            Vendor::Garmin => "Waypoint",
+            Vendor::Suunto => "POI",
+        };
         eprintln!(
-            "Attenzione: valori non presenti nel dizionario, convertiti in Waypoint: {}",
+            "Attenzione: valori non presenti nel dizionario, convertiti in {fallback}: {}",
             report
                 .unknown_values
                 .iter()

@@ -76,11 +76,13 @@ Le corrispondenze sono raccolte in `src/poi.rs`, nella tabella
 
 - un nome canonico interno;
 - il valore Garmin;
-- il valore Suunto;
+- il valore testuale Suunto;
 - una lista di alias riconosciuti in input.
 
-Un valore sconosciuto viene convertito nel tipo generico `Waypoint` e mostrato
-in un avviso, così è immediatamente evidente quale voce aggiungere al
+Il dizionario include tutti i tipi Suunto, da `Unknown` a `Campfire`. Nei file
+GPX viene scritto il valore testuale previsto da `<type>`. Un valore sconosciuto
+viene convertito nel tipo generico `Waypoint` per Garmin o `POI` per Suunto e
+mostrato in un avviso, così è immediatamente evidente quale voce aggiungere al
 dizionario.
 
 ## Compatibilità
