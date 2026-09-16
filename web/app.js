@@ -1,5 +1,3 @@
-import init, { convert_gpx_for_web } from "./pkg/universal_gpx_poi.js";
-
 const form = document.querySelector("#converter-form");
 const fileInput = document.querySelector("#source-file");
 const dropZone = document.querySelector("#drop-zone");
@@ -10,7 +8,19 @@ const button = document.querySelector("#convert-button");
 const status = document.querySelector("#status");
 
 let selectedFile = null;
-const wasmReady = init();
+let convertGpxForWeb;
+const wasmReady = fetch("./pkg/manifest.json", { cache: "no-store" })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`Manifest WebAssembly non disponibile (${response.status})`);
+    }
+    return response.json();
+  })
+  .then(({ module }) => import(`./pkg/${module}`))
+  .then(async (wasm) => {
+    await wasm.default();
+    convertGpxForWeb = wasm.convert_gpx_for_web;
+  });
 
 function chooseFile(file) {
   if (!file) return;
@@ -88,7 +98,7 @@ form.addEventListener("submit", async (event) => {
   try {
     await wasmReady;
     const input = await selectedFile.text();
-    const result = convert_gpx_for_web(input, target.value);
+    const result = convertGpxForWeb(input, target.value);
     download(result.output, outputName(selectedFile.name, target.value));
 
     let message = `Fatto: ${result.waypoints} waypoint, ${result.translated} tradotti.`;

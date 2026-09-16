@@ -32,9 +32,10 @@ npm run serve
 ```
 
 Apri <http://localhost:8080>. La build genera in `web/pkg/` il modulo
-JavaScript e il file `.wasm` pronti per la pubblicazione su qualunque hosting
-statico. Non aprire direttamente `web/index.html` tramite `file://`, perché i
-browser caricano i moduli WebAssembly via HTTP.
+JavaScript e il file `.wasm` con un hash del contenuto nel nome, insieme al
+`manifest.json` usato per individuarli. I file sono pronti per la pubblicazione
+su qualunque hosting statico. Non aprire direttamente `web/index.html` tramite
+`file://`, perché i browser caricano i moduli WebAssembly via HTTP.
 
 ## Container Docker
 

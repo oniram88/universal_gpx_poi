@@ -14,8 +14,9 @@ COPY src ./src
 RUN cargo fetch --target wasm32-unknown-unknown
 
 COPY web ./web
+COPY scripts ./scripts
 
-RUN wasm-pack build --target web --out-dir web/pkg --release
+RUN sh scripts/build-web.sh
 
 FROM nginx:1.29-alpine AS runtime
 

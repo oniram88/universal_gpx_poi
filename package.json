@@ -2,7 +2,7 @@
   "name": "universal-gpx-poi-web",
   "private": true,
   "scripts": {
-    "build": "wasm-pack build --target web --out-dir web/pkg --release",
+    "build": "sh scripts/build-web.sh",
     "serve": "python3 -m http.server 8080 --directory web"
   }
 }
