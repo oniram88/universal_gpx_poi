@@ -157,6 +157,12 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
         suunto: "Sight",
         aliases: &["sight", "scenic area", "viewpoint"],
     },
+    PoiTranslation {
+        canonical: "picnic_area",
+        garmin: "Picnic Area",
+        suunto: "Food",
+        aliases: &["picnic area", "picnic spot", "picnic site"],
+    },
 ];
 
 pub(crate) struct Translation<'a> {
