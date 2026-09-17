@@ -19,10 +19,7 @@ impl Vendor {
     }
 
     pub(crate) fn element(self) -> &'static str {
-        match self {
-            Self::Garmin => "sym",
-            Self::Suunto => "type",
-        }
+        "type"
     }
 }
 
@@ -37,11 +34,12 @@ struct PoiTranslation {
     aliases: &'static [&'static str],
 }
 
-// Garmin usa il testo di <sym>; Suunto usa il testo di <type>.
+// Sia Garmin sia Suunto usano il testo di <type>. Continuiamo comunque a
+// riconoscere <sym> in input per poter convertire i GPX esistenti.
 // I valori Garmin qui presenti appartengono al vocabolario storico
 // MapSource/BaseCamp, mentre i nomi Suunto sono quelli documentati nei manuali
 // dei dispositivi. Quando non esiste una corrispondenza Garmin affidabile viene
-// usato il simbolo generico Waypoint.
+// usato il tipo generico WAYPOINT.
 macro_rules! poi {
     ($canonical:literal, $garmin:literal, $suunto:literal, [$($alias:literal),* $(,)?]) => {
         PoiTranslation {
@@ -56,7 +54,7 @@ macro_rules! poi {
 static POI_DICTIONARY: &[PoiTranslation] = &[
     poi!(
         "poi",
-        "Waypoint",
+        "WAYPOINT",
         "POI",
         [
             "waypoint",
@@ -66,128 +64,122 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
             "basic"
         ]
     ),
-    poi!("unknown", "Waypoint", "Unknown", []),
-    poi!("building", "Building", "Building", []),
-    poi!("home", "Residence", "Home", []),
-    poi!("car", "Car", "Car", []),
-    poi!("parking", "Parking Area", "Parking", ["parking area"]),
-    poi!("camp", "Campground", "Camp", []),
+    poi!("unknown", "WAYPOINT", "Unknown", []),
+    poi!("building", "BUILDING", "Building", []),
+    poi!("home", "RESIDENCE", "Home", []),
+    poi!("car", "CAR", "Car", []),
+    poi!("parking", "PARKING AREA", "Parking", ["parking area"]),
+    poi!("camp", "CAMPGROUND", "Camp", []),
     poi!(
         "camping",
-        "Campground",
+        "CAMPGROUND",
         "Camping",
         ["campground", "camping site"]
     ),
     poi!(
         "food",
-        "Picnic Area",
+        "FOOD",
         "Food",
         ["bar", "picnic area", "picnic spot", "picnic site"]
     ),
-    poi!("restaurant", "Restaurant", "Restaurant", []),
-    poi!("cafe", "Restaurant", "Cafe", ["coffee shop"]),
+    poi!("restaurant", "RESTAURANT", "Restaurant", []),
+    poi!("cafe", "RESTAURANT", "Cafe", ["coffee shop"]),
     poi!(
         "lodging",
-        "Lodge",
+        "LODGE",
         "Lodging",
         ["lodge", "alpine hut", "mountain hut"]
     ),
-    poi!("hostel", "Lodge", "Hostel", []),
-    poi!("hotel", "Lodge", "Hotel", []),
+    poi!("hostel", "LODGE", "Hostel", []),
+    poi!("hotel", "LODGE", "Hotel", []),
     poi!(
         "water",
-        "Drinking Water",
+        "WATER",
         "Water",
-        ["drinking water", "water source"]
+        ["drinking water", "water source","water point", "waterpoint"]
     ),
-    poi!("river", "Waypoint", "River", []),
-    poi!("lake", "Waypoint", "Lake", []),
-    poi!("coast", "Waypoint", "Coast", []),
-    poi!("mountain", "Summit", "Mountain", []),
-    poi!("hill", "Summit", "Hill", []),
-    poi!("valley", "Waypoint", "Valley", []),
-    poi!("cliff", "Waypoint", "Cliff", []),
-    poi!("forest", "Forest", "Forest", ["wood", "woods"]),
+    poi!("river", "WAYPOINT", "River", []),
+    poi!("lake", "WAYPOINT", "Lake", []),
+    poi!("coast", "WAYPOINT", "Coast", []),
+    poi!("mountain", "SUMMIT", "Mountain", []),
+    poi!("hill", "SUMMIT", "Hill", []),
+    poi!("valley", "WAYPOINT", "Valley", []),
+    poi!("cliff", "WAYPOINT", "Cliff", []),
+    poi!("forest", "FOREST", "Forest", ["wood", "woods"]),
     poi!(
         "crossroads",
-        "Crossing",
+        "CROSSING",
         "Crossroads",
         ["crossing", "crossroad"]
     ),
     poi!(
         "sight",
-        "Scenic Area",
+        "SCENIC AREA",
         "Sight",
         ["scenic area", "viewpoint"]
     ),
-    poi!("begin", "Trail Head", "Begin", ["start"]),
-    poi!("end", "Waypoint", "End", ["finish"]),
-    poi!("geocache", "Geocache", "Geocache", ["geocaching"]),
-    poi!("road", "Waypoint", "Road", []),
-    poi!("trail", "Trail Head", "Trail", ["trail head", "trailhead"]),
-    poi!("rock", "Rock", "Rock", ["boulder"]),
-    poi!("meadow", "Waypoint", "Meadow", []),
-    poi!("cave", "Waypoint", "Cave", []),
-    poi!("emergency", "Medical Facility", "Emergency", ["sos"]),
-    poi!("information", "Information", "Information", ["info"]),
-    poi!("peak", "Summit", "Peak", ["summit", "mountain top"]),
-    poi!("waterfall", "Waypoint", "Waterfall", []),
+    poi!("begin", "TRAIL HEAD", "Begin", ["start"]),
+    poi!("end", "WAYPOINT", "End", ["finish"]),
+    poi!("geocache", "GEOCACHE", "Geocache", ["geocaching"]),
+    poi!("road", "WAYPOINT", "Road", []),
+    poi!("trail", "TRAIL HEAD", "Trail", ["trail head", "trailhead"]),
+    poi!("rock", "ROCK", "Rock", ["boulder"]),
+    poi!("meadow", "WAYPOINT", "Meadow", []),
+    poi!("cave", "WAYPOINT", "Cave", []),
+    poi!("emergency", "MEDICAL FACILITY", "Emergency", ["sos"]),
+    poi!("information", "INFORMATION", "Information", ["info"]),
+    poi!("peak", "SUMMIT", "Peak", ["summit", "mountain top"]),
+    poi!("waterfall", "WAYPOINT", "Waterfall", []),
     poi!(
         "fishing_spot",
-        "Fishing Area",
+        "FISHING AREA",
         "FishingSpot",
         ["fishing spot"]
     ),
-    poi!("bedding", "Waypoint", "Bedding", []),
-    poi!("prints", "Waypoint", "Prints", ["animal prints", "tracks"]),
-    poi!("rub", "Waypoint", "Rub", []),
-    poi!("scrape", "Waypoint", "Scrape", []),
-    poi!("stand", "Waypoint", "Stand", []),
+    poi!("bedding", "WAYPOINT", "Bedding", []),
+    poi!("prints", "WAYPOINT", "Prints", ["animal prints", "tracks"]),
+    poi!("rub", "WAYPOINT", "Rub", []),
+    poi!("scrape", "WAYPOINT", "Scrape", []),
+    poi!("stand", "WAYPOINT", "Stand", []),
     poi!(
         "trail_cam",
-        "Waypoint",
+        "WAYPOINT",
         "TrailCam",
         ["trail cam", "trail camera"]
     ),
-    poi!("big_game", "Waypoint", "BigGame", ["big game"]),
-    poi!("small_game", "Waypoint", "SmallGame", ["small game"]),
-    poi!("bird", "Waypoint", "Bird", []),
-    poi!("shot", "Waypoint", "Shot", []),
-    poi!("fish", "Fishing Area", "Fish", []),
-    poi!("big_fish", "Fishing Area", "BigFish", ["big fish"]),
-    poi!("coral_reef", "Waypoint", "CoralReef", ["coral reef"]),
-    poi!("beach", "Waypoint", "Beach", []),
+    poi!("big_game", "WAYPOINT", "BigGame", ["big game"]),
+    poi!("small_game", "WAYPOINT", "SmallGame", ["small game"]),
+    poi!("bird", "WAYPOINT", "Bird", []),
+    poi!("shot", "WAYPOINT", "Shot", []),
+    poi!("fish", "FISHING AREA", "Fish", []),
+    poi!("big_fish", "FISHING AREA", "BigFish", ["big fish"]),
+    poi!("coral_reef", "WAYPOINT", "CoralReef", ["coral reef"]),
+    poi!("beach", "WAYPOINT", "Beach", []),
     poi!(
         "marine_mammals",
-        "Waypoint",
+        "WAYPOINT",
         "MarineMammals",
         ["marine mammals"]
     ),
-    poi!("kelp_forest", "Waypoint", "KelpForest", ["kelp forest"]),
-    poi!("lagoon", "Waypoint", "Lagoon", []),
-    poi!("wreck", "Waypoint", "Wreck", ["shipwreck"]),
+    poi!("kelp_forest", "WAYPOINT", "KelpForest", ["kelp forest"]),
+    poi!("lagoon", "WAYPOINT", "Lagoon", []),
+    poi!("wreck", "WAYPOINT", "Wreck", ["shipwreck"]),
     poi!(
         "marine_reserve",
-        "Waypoint",
+        "WAYPOINT",
         "MarineReserve",
         ["marine reserve"]
     ),
-    poi!("avalanche", "Danger Area", "Avalanche", []),
-    poi!("danger", "Danger Area", "Danger", ["hazard", "alert"]),
+    poi!("avalanche", "DANGER AREA", "Avalanche", []),
+    poi!("danger", "CHECKPOINT", "Danger", ["hazard", "alert","checkpoint"]),
     poi!(
         "aid_station",
-        "Medical Facility",
+        "MEDICAL FACILITY",
         "AidStation",
         ["aid station"]
     ),
-    poi!(
-        "water_point",
-        "Drinking Water",
-        "WaterPoint",
-        ["water point", "waterpoint"]
-    ),
-    poi!("mushrooms", "Waypoint", "Mushrooms", ["mushroom"]),
-    poi!("campfire", "Campground", "Campfire", ["camp fire"]),
+    poi!("mushrooms", "WAYPOINT", "Mushrooms", ["mushroom"]),
+    poi!("campfire", "CAMPGROUND", "Campfire", ["camp fire"]),
 ];
 
 pub(crate) struct Translation<'a> {
@@ -225,7 +217,7 @@ pub(crate) fn translate<'a>(
 
     Translation {
         value: match target {
-            Vendor::Garmin => "Waypoint",
+            Vendor::Garmin => "WAYPOINT",
             Vendor::Suunto => "POI",
         },
         source: symbol.or(poi_type),
@@ -283,7 +275,7 @@ mod tests {
         );
         assert_eq!(
             translate(None, Some("Peak"), Vendor::Garmin).value,
-            "Summit"
+            "SUMMIT"
         );
         assert_eq!(
             translate(Some("LODGE"), None, Vendor::Suunto).value,
@@ -297,6 +289,18 @@ mod tests {
             translate(Some("alpine_hut"), None, Vendor::Suunto).value,
             "Lodging"
         );
+    }
+
+    #[test]
+    fn all_garmin_values_are_uppercase() {
+        for entry in POI_DICTIONARY {
+            assert_eq!(
+                entry.garmin,
+                entry.garmin.to_uppercase(),
+                "valore Garmin non maiuscolo: {}",
+                entry.garmin
+            );
+        }
     }
 
     #[test]

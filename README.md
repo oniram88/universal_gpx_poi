@@ -12,7 +12,7 @@ cargo run -- test_data/super-baldo.gpx
 Il programma chiede il formato di destinazione e crea, accanto all'originale:
 
 - `super-baldo-suunto.gpx`, usando `<type>` per il tipo POI;
-- `super-baldo-garmin.gpx`, usando `<sym>` per il simbolo waypoint.
+- `super-baldo-garmin.gpx`, usando `<type>` con valori in maiuscolo.
 
 Il sorgente non viene sovrascritto. I campi e le estensioni GPX non relative ai
 POI vengono conservati.
@@ -82,13 +82,14 @@ Le corrispondenze sono raccolte in `src/poi.rs`, nella tabella
 
 Il dizionario include tutti i tipi Suunto, da `Unknown` a `Campfire`. Nei file
 GPX viene scritto il valore testuale previsto da `<type>`. Un valore sconosciuto
-viene convertito nel tipo generico `Waypoint` per Garmin o `POI` per Suunto e
+viene convertito nel tipo generico `WAYPOINT` per Garmin o `POI` per Suunto e
 mostrato in un avviso, così è immediatamente evidente quale voce aggiungere al
 dizionario.
 
 ## Compatibilità
 
-GPX 1.1 definisce `sym` e `type` come stringhe, non come enum. Garmin usa
-principalmente `sym`, mentre Suunto usa `type` per scegliere l'icona del POI.
+GPX 1.1 definisce `sym` e `type` come stringhe, non come enum. Il convertitore
+scrive i valori di entrambi i formati in `type`; quelli Garmin sono tutti in
+maiuscolo. `sym` viene comunque riconosciuto nei file sorgente per compatibilita'.
 Gli insiemi effettivi possono variare in base a modello e firmware: per questo
 il dizionario è esplicito, conservativo ed estendibile.

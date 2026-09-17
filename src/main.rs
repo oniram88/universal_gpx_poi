@@ -75,7 +75,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     );
     if !report.unknown_values.is_empty() {
         let fallback = match target {
-            Vendor::Garmin => "Waypoint",
+            Vendor::Garmin => "WAYPOINT",
             Vendor::Suunto => "POI",
         };
         eprintln!(

@@ -215,6 +215,9 @@ fn convert_waypoint(
         report.translated += 1;
     }
 
+    if target == Vendor::Garmin {
+        remove_direct_children(&mut events, "sym");
+    }
     replace_or_insert_direct_child(&mut events, target.element(), translation.value);
     Ok(events)
 }
@@ -306,6 +309,41 @@ fn replace_or_insert_direct_child(
     }
 
     insert_direct_child(events, wanted, value);
+}
+
+fn remove_direct_children(events: &mut Vec<Event<'static>>, wanted: &str) {
+    let mut depth = 0usize;
+    let mut index = 1usize;
+
+    while index + 1 < events.len() {
+        match &events[index] {
+            Event::Start(start) if depth == 0 && is_local_name(start, wanted) => {
+                let mut nested = 1usize;
+                let mut end_index = index + 1;
+                while end_index < events.len() && nested > 0 {
+                    match &events[end_index] {
+                        Event::Start(_) => nested += 1,
+                        Event::End(_) => nested -= 1,
+                        _ => {}
+                    }
+                    end_index += 1;
+                }
+                events.drain(index..end_index);
+            }
+            Event::Empty(start) if depth == 0 && is_local_name(start, wanted) => {
+                events.remove(index);
+            }
+            Event::Start(_) => {
+                depth += 1;
+                index += 1;
+            }
+            Event::End(_) => {
+                depth = depth.saturating_sub(1);
+                index += 1;
+            }
+            _ => index += 1,
+        }
+    }
 }
 
 fn insert_direct_child(events: &mut Vec<Event<'static>>, name: &str, value: &'static str) {
@@ -461,7 +499,8 @@ mod tests {
             r#"<gpx><wpt lat="1" lon="2"><type>Peak</type><sym>Flag, Blue</sym></wpt></gpx>"#;
         let (once, report) = convert_gpx(source, Vendor::Garmin).unwrap();
         let (twice, _) = convert_gpx(&once, Vendor::Garmin).unwrap();
-        assert!(once.contains("<sym>Summit</sym>"));
+        assert!(once.contains("<type>SUMMIT</type>"));
+        assert!(!once.contains("<sym>"));
         assert_eq!(once, twice);
         assert_eq!(report.translated, 1);
     }
@@ -478,7 +517,16 @@ mod tests {
     fn respects_gpx_child_order_and_namespace_prefix() {
         let source = r#"<g:gpx xmlns:g="http://www.topografix.com/GPX/1/1"><g:wpt lat="1" lon="2"><g:type>Peak</g:type><g:fix>3d</g:fix></g:wpt></g:gpx>"#;
         let (converted, _) = convert_gpx(source, Vendor::Garmin).unwrap();
-        assert!(converted.contains("<g:sym>Summit</g:sym><g:type>Peak</g:type><g:fix>3d</g:fix>"));
+        assert!(converted.contains("<g:type>SUMMIT</g:type><g:fix>3d</g:fix>"));
+        assert!(!converted.contains("<g:sym>"));
+    }
+
+    #[test]
+    fn garmin_uses_type_instead_of_sym() {
+        let source = r#"<gpx><wpt lat="1" lon="2"><name>Fontana</name><sym>Drinking Water</sym></wpt></gpx>"#;
+        let (converted, _) = convert_gpx(source, Vendor::Garmin).unwrap();
+        assert!(converted.contains("<type>DRINKING WATER</type>"));
+        assert!(!converted.contains("<sym>"));
     }
 
     #[test]
