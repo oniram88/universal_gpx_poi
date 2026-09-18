@@ -117,7 +117,7 @@
         <ele>123308.8</ele>
         <name>Drinking Water</name>
         <desc>Drinking Water</desc>
-        <type>DRINKING WATER</type>
+        <type>WATER</type>
     </wpt>
 
     <wpt lat="45.609906" lon="10.794023">
