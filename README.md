@@ -76,20 +76,20 @@ Le corrispondenze sono raccolte in `src/poi.rs`, nella tabella
 `POI_DICTIONARY`. Ogni voce ha:
 
 - un nome canonico interno;
-- il valore Garmin;
-- il valore testuale Suunto;
-- una lista di alias riconosciuti in input.
+- i valori GPX per Garmin (maiuscoli) e Suunto (con iniziali maiuscole);
+- una lista di alias riconosciuti in input;
+- il nome dell'icona Lucide, quando disponibile.
 
-Il dizionario include tutti i tipi Suunto, da `Unknown` a `Campfire`. Nei file
-GPX viene scritto il valore testuale previsto da `<type>`. Un valore sconosciuto
-viene convertito nel tipo generico `WAYPOINT` per Garmin o `POI` per Suunto e
-mostrato in un avviso, così è immediatamente evidente quale voce aggiungere al
-dizionario.
+La prima voce del dizionario e' il fallback generale. Nei file GPX viene scritto
+il valore testuale previsto da `<type>`. Un valore sconosciuto viene convertito
+nel tipo generico `WAYPOINT` per Garmin o `POI` per Suunto e mostrato in un
+avviso, così è immediatamente evidente quale voce aggiungere al dizionario.
 
 ## Compatibilità
 
 GPX 1.1 definisce `sym` e `type` come stringhe, non come enum. Il convertitore
-scrive i valori di entrambi i formati in `type`; quelli Garmin sono tutti in
-maiuscolo. `sym` viene comunque riconosciuto nei file sorgente per compatibilita'.
+scrive i valori di entrambi i formati in `type`: quelli Garmin interamente in
+maiuscolo, quelli Suunto con le iniziali maiuscole. `sym` viene comunque
+riconosciuto nei file sorgente per compatibilita'.
 Gli insiemi effettivi possono variare in base a modello e firmware: per questo
 il dizionario è esplicito, conservativo ed estendibile.

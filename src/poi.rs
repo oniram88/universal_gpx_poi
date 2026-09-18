@@ -32,14 +32,15 @@ struct PoiTranslation {
     /// Valore testuale usato dall'elemento `<type>` dei file GPX.
     suunto: &'static str,
     aliases: &'static [&'static str],
+    /// Nome dell'icona Lucide associata al POI, se disponibile.
+    #[allow(dead_code)]
+    icon: Option<&'static str>,
 }
 
 // Sia Garmin sia Suunto usano il testo di <type>. Continuiamo comunque a
 // riconoscere <sym> in input per poter convertire i GPX esistenti.
-// I valori Garmin qui presenti appartengono al vocabolario storico
-// MapSource/BaseCamp, mentre i nomi Suunto sono quelli documentati nei manuali
-// dei dispositivi. Quando non esiste una corrispondenza Garmin affidabile viene
-// usato il tipo generico WAYPOINT.
+// I valori Garmin sono maiuscoli; quelli Suunto hanno le iniziali maiuscole.
+// La prima voce resta il fallback generale: WAYPOINT per Garmin e POI per Suunto.
 macro_rules! poi {
     ($canonical:literal, $garmin:literal, $suunto:literal, [$($alias:literal),* $(,)?]) => {
         PoiTranslation {
@@ -47,6 +48,16 @@ macro_rules! poi {
             garmin: $garmin,
             suunto: $suunto,
             aliases: &[$($alias),*],
+            icon: None,
+        }
+    };
+    ($canonical:literal, $garmin:literal, $suunto:literal, $icon:literal) => {
+        PoiTranslation {
+            canonical: $canonical,
+            garmin: $garmin,
+            suunto: $suunto,
+            aliases: &[],
+            icon: Some($icon),
         }
     };
 }
@@ -64,122 +75,81 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
             "basic"
         ]
     ),
-    poi!("unknown", "WAYPOINT", "Unknown", []),
-    poi!("building", "BUILDING", "Building", []),
-    poi!("home", "RESIDENCE", "Home", []),
-    poi!("car", "CAR", "Car", []),
-    poi!("parking", "PARKING AREA", "Parking", ["parking area"]),
-    poi!("camp", "CAMPGROUND", "Camp", []),
+    poi!("alert", "ALERT", "Alert", "TriangleAlert"),
+    poi!("anchor", "ANCHOR", "Anchor", "Anchor"),
+    poi!("bank", "BANK", "Bank", "Landmark"),
+    poi!("beach", "BEACH", "Beach", "Shell"),
+    poi!("bike_trail", "BIKE TRAIL", "Bike Trail", "Bike"),
+    poi!("binoculars", "BINOCULARS", "Binoculars", "Binoculars"),
+    poi!("bridge", "BRIDGE", "Bridge", []),
+    poi!("building", "BUILDING", "Building", "Building"),
+    poi!("campground", "CAMPGROUND", "Campground", "Tent"),
+    poi!("car", "CAR", "Car", "Car"),
+    poi!("car_repair", "CAR REPAIR", "Car Repair", "Wrench"),
     poi!(
-        "camping",
-        "CAMPGROUND",
-        "Camping",
-        ["campground", "camping site"]
+        "convenience_store",
+        "CONVENIENCE STORE",
+        "Convenience Store",
+        "ShoppingBasket"
+    ),
+    poi!("crossing", "CROSSING", "Crossing", "X"),
+    poi!(
+        "department_store",
+        "DEPARTMENT STORE",
+        "Department Store",
+        "ShoppingBasket"
     ),
     poi!(
-        "food",
-        "FOOD",
-        "Food",
-        ["bar", "picnic area", "picnic spot", "picnic site"]
+        "drinking_water",
+        "DRINKING WATER",
+        "Drinking Water",
+        "Droplet"
     ),
-    poi!("restaurant", "RESTAURANT", "Restaurant", []),
-    poi!("cafe", "RESTAURANT", "Cafe", ["coffee shop"]),
+    poi!("exit", "EXIT", "Exit", "DoorOpen"),
+    poi!("lodge", "LODGE", "Lodge", "House"),
+    poi!("lodging", "LODGING", "Lodging", "Bed"),
+    poi!("forest", "FOREST", "Forest", "Trees"),
+    poi!("gas_station", "GAS STATION", "Gas Station", "Fuel"),
     poi!(
-        "lodging",
-        "LODGE",
-        "Lodging",
-        ["lodge", "alpine hut", "mountain hut"]
+        "ground_transportation",
+        "GROUND TRANSPORTATION",
+        "Ground Transportation",
+        "TrainFront"
     ),
-    poi!("hostel", "LODGE", "Hostel", []),
-    poi!("hotel", "LODGE", "Hotel", []),
+    poi!("hotel", "HOTEL", "Hotel", "Bed"),
+    poi!("house", "HOUSE", "House", "House"),
+    poi!("information", "INFORMATION", "Information", "Info"),
+    poi!("park", "PARK", "Park", "TreeDeciduous"),
     poi!(
-        "water",
-        "WATER",
-        "Water",
-        ["drinking water", "water source","water point", "waterpoint"]
+        "parking_area",
+        "PARKING AREA",
+        "Parking Area",
+        "CircleParking"
     ),
-    poi!("river", "WAYPOINT", "River", []),
-    poi!("lake", "WAYPOINT", "Lake", []),
-    poi!("coast", "WAYPOINT", "Coast", []),
-    poi!("mountain", "SUMMIT", "Mountain", []),
-    poi!("hill", "SUMMIT", "Hill", []),
-    poi!("valley", "WAYPOINT", "Valley", []),
-    poi!("cliff", "WAYPOINT", "Cliff", []),
-    poi!("forest", "FOREST", "Forest", ["wood", "woods"]),
+    poi!("pharmacy", "PHARMACY", "Pharmacy", "Cross"),
+    poi!("picnic_area", "PICNIC AREA", "Picnic Area", "Utensils"),
+    poi!("restaurant", "RESTAURANT", "Restaurant", "Utensils"),
     poi!(
-        "crossroads",
-        "CROSSING",
-        "Crossroads",
-        ["crossing", "crossroad"]
+        "restricted_area",
+        "RESTRICTED AREA",
+        "Restricted Area",
+        "Construction"
     ),
+    poi!("restroom", "RESTROOM", "Restroom", "Toilet"),
+    poi!("road", "ROAD", "Road", "BrickWall"),
+    poi!("scenic_area", "SCENIC AREA", "Scenic Area", "Binoculars"),
+    poi!("shelter", "SHELTER", "Shelter", "Tent"),
     poi!(
-        "sight",
-        "SCENIC AREA",
-        "Sight",
-        ["scenic area", "viewpoint"]
+        "shopping_center",
+        "SHOPPING CENTER",
+        "Shopping Center",
+        "ShoppingBasket"
     ),
-    poi!("begin", "TRAIL HEAD", "Begin", ["start"]),
-    poi!("end", "WAYPOINT", "End", ["finish"]),
-    poi!("geocache", "GEOCACHE", "Geocache", ["geocaching"]),
-    poi!("road", "WAYPOINT", "Road", []),
-    poi!("trail", "TRAIL HEAD", "Trail", ["trail head", "trailhead"]),
-    poi!("rock", "ROCK", "Rock", ["boulder"]),
-    poi!("meadow", "WAYPOINT", "Meadow", []),
-    poi!("cave", "WAYPOINT", "Cave", []),
-    poi!("emergency", "MEDICAL FACILITY", "Emergency", ["sos"]),
-    poi!("information", "INFORMATION", "Information", ["info"]),
-    poi!("peak", "SUMMIT", "Peak", ["summit", "mountain top"]),
-    poi!("waterfall", "WAYPOINT", "Waterfall", []),
-    poi!(
-        "fishing_spot",
-        "FISHING AREA",
-        "FishingSpot",
-        ["fishing spot"]
-    ),
-    poi!("bedding", "WAYPOINT", "Bedding", []),
-    poi!("prints", "WAYPOINT", "Prints", ["animal prints", "tracks"]),
-    poi!("rub", "WAYPOINT", "Rub", []),
-    poi!("scrape", "WAYPOINT", "Scrape", []),
-    poi!("stand", "WAYPOINT", "Stand", []),
-    poi!(
-        "trail_cam",
-        "WAYPOINT",
-        "TrailCam",
-        ["trail cam", "trail camera"]
-    ),
-    poi!("big_game", "WAYPOINT", "BigGame", ["big game"]),
-    poi!("small_game", "WAYPOINT", "SmallGame", ["small game"]),
-    poi!("bird", "WAYPOINT", "Bird", []),
-    poi!("shot", "WAYPOINT", "Shot", []),
-    poi!("fish", "FISHING AREA", "Fish", []),
-    poi!("big_fish", "FISHING AREA", "BigFish", ["big fish"]),
-    poi!("coral_reef", "WAYPOINT", "CoralReef", ["coral reef"]),
-    poi!("beach", "WAYPOINT", "Beach", []),
-    poi!(
-        "marine_mammals",
-        "WAYPOINT",
-        "MarineMammals",
-        ["marine mammals"]
-    ),
-    poi!("kelp_forest", "WAYPOINT", "KelpForest", ["kelp forest"]),
-    poi!("lagoon", "WAYPOINT", "Lagoon", []),
-    poi!("wreck", "WAYPOINT", "Wreck", ["shipwreck"]),
-    poi!(
-        "marine_reserve",
-        "WAYPOINT",
-        "MarineReserve",
-        ["marine reserve"]
-    ),
-    poi!("avalanche", "DANGER AREA", "Avalanche", []),
-    poi!("danger", "CHECKPOINT", "Danger", ["hazard", "alert","checkpoint"]),
-    poi!(
-        "aid_station",
-        "MEDICAL FACILITY",
-        "AidStation",
-        ["aid station"]
-    ),
-    poi!("mushrooms", "WAYPOINT", "Mushrooms", ["mushroom"]),
-    poi!("campfire", "CAMPGROUND", "Campfire", ["camp fire"]),
+    poi!("shower", "SHOWER", "Shower", "ShowerHead"),
+    poi!("summit", "SUMMIT", "Summit", "Mountain"),
+    poi!("telephone", "TELEPHONE", "Telephone", "Phone"),
+    poi!("tunnel", "TUNNEL", "Tunnel", []),
+    poi!("water_source", "WATER SOURCE", "Water Source", "Droplet"),
 ];
 
 pub(crate) struct Translation<'a> {
@@ -268,117 +238,103 @@ mod tests {
     use super::*;
 
     #[test]
-    fn translates_both_vendor_vocabularies() {
+    fn translates_values_for_both_targets() {
         assert_eq!(
             translate(Some("Drinking Water"), None, Vendor::Suunto).value,
-            "Water"
+            "Drinking Water"
         );
         assert_eq!(
-            translate(None, Some("Peak"), Vendor::Garmin).value,
+            translate(None, Some("Summit"), Vendor::Garmin).value,
             "SUMMIT"
         );
         assert_eq!(
             translate(Some("LODGE"), None, Vendor::Suunto).value,
-            "Lodging"
+            "Lodge"
         );
     }
 
     #[test]
-    fn accepts_normalized_aliases() {
+    fn accepts_normalized_values() {
         assert_eq!(
-            translate(Some("alpine_hut"), None, Vendor::Suunto).value,
-            "Lodging"
+            translate(Some("car_repair"), None, Vendor::Suunto).value,
+            "Car Repair"
         );
     }
 
     #[test]
-    fn all_garmin_values_are_uppercase() {
-        for entry in POI_DICTIONARY {
-            assert_eq!(
-                entry.garmin,
-                entry.garmin.to_uppercase(),
-                "valore Garmin non maiuscolo: {}",
-                entry.garmin
-            );
-        }
+    fn waypoint_is_the_only_general_fallback() {
+        assert_eq!(POI_DICTIONARY[0].garmin, "WAYPOINT");
+        assert_eq!(POI_DICTIONARY[0].suunto, "POI");
+        assert!(
+            POI_DICTIONARY[1..]
+                .iter()
+                .all(|entry| entry.garmin != "WAYPOINT" && entry.suunto != "POI")
+        );
     }
 
     #[test]
-    fn contains_every_documented_suunto_type_once() {
+    fn dictionary_matches_the_scratch_mapping() {
         let expected = [
-            "Unknown",
-            "Building",
-            "Home",
-            "Car",
-            "Parking",
-            "Camp",
-            "Camping",
-            "Food",
-            "Restaurant",
-            "Cafe",
-            "Lodging",
-            "Hostel",
-            "Hotel",
-            "Water",
-            "River",
-            "Lake",
-            "Coast",
-            "Mountain",
-            "Hill",
-            "Valley",
-            "Cliff",
-            "Forest",
-            "Crossroads",
-            "Sight",
-            "Begin",
-            "End",
-            "Geocache",
-            "POI",
-            "Road",
-            "Trail",
-            "Rock",
-            "Meadow",
-            "Cave",
-            "Emergency",
-            "Information",
-            "Peak",
-            "Waterfall",
-            "FishingSpot",
-            "Bedding",
-            "Prints",
-            "Rub",
-            "Scrape",
-            "Stand",
-            "TrailCam",
-            "BigGame",
-            "SmallGame",
-            "Bird",
-            "Shot",
-            "Fish",
-            "BigFish",
-            "CoralReef",
-            "Beach",
-            "MarineMammals",
-            "KelpForest",
-            "Lagoon",
-            "Wreck",
-            "MarineReserve",
-            "Avalanche",
-            "Danger",
-            "AidStation",
-            "WaterPoint",
-            "Mushrooms",
-            "Campfire",
+            ("alert", "Alert", Some("TriangleAlert")),
+            ("anchor", "Anchor", Some("Anchor")),
+            ("bank", "Bank", Some("Landmark")),
+            ("beach", "Beach", Some("Shell")),
+            ("bike_trail", "Bike Trail", Some("Bike")),
+            ("binoculars", "Binoculars", Some("Binoculars")),
+            ("bridge", "Bridge", None),
+            ("building", "Building", Some("Building")),
+            ("campground", "Campground", Some("Tent")),
+            ("car", "Car", Some("Car")),
+            ("car_repair", "Car Repair", Some("Wrench")),
+            (
+                "convenience_store",
+                "Convenience Store",
+                Some("ShoppingBasket"),
+            ),
+            ("crossing", "Crossing", Some("X")),
+            (
+                "department_store",
+                "Department Store",
+                Some("ShoppingBasket"),
+            ),
+            ("drinking_water", "Drinking Water", Some("Droplet")),
+            ("exit", "Exit", Some("DoorOpen")),
+            ("lodge", "Lodge", Some("House")),
+            ("lodging", "Lodging", Some("Bed")),
+            ("forest", "Forest", Some("Trees")),
+            ("gas_station", "Gas Station", Some("Fuel")),
+            (
+                "ground_transportation",
+                "Ground Transportation",
+                Some("TrainFront"),
+            ),
+            ("hotel", "Hotel", Some("Bed")),
+            ("house", "House", Some("House")),
+            ("information", "Information", Some("Info")),
+            ("park", "Park", Some("TreeDeciduous")),
+            ("parking_area", "Parking Area", Some("CircleParking")),
+            ("pharmacy", "Pharmacy", Some("Cross")),
+            ("picnic_area", "Picnic Area", Some("Utensils")),
+            ("restaurant", "Restaurant", Some("Utensils")),
+            ("restricted_area", "Restricted Area", Some("Construction")),
+            ("restroom", "Restroom", Some("Toilet")),
+            ("road", "Road", Some("BrickWall")),
+            ("scenic_area", "Scenic Area", Some("Binoculars")),
+            ("shelter", "Shelter", Some("Tent")),
+            ("shopping_center", "Shopping Center", Some("ShoppingBasket")),
+            ("shower", "Shower", Some("ShowerHead")),
+            ("summit", "Summit", Some("Mountain")),
+            ("telephone", "Telephone", Some("Phone")),
+            ("tunnel", "Tunnel", None),
+            ("water_source", "Water Source", Some("Droplet")),
         ];
 
-        assert_eq!(POI_DICTIONARY.len(), expected.len());
-        for name in expected {
-            let matches = POI_DICTIONARY
-                .iter()
-                .filter(|entry| entry.suunto == name)
-                .count();
-            assert_eq!(matches, 1, "tipo Suunto mancante o duplicato: {name}");
-            assert_eq!(translate(None, Some(name), Vendor::Suunto).value, name);
+        assert_eq!(POI_DICTIONARY.len(), expected.len() + 1);
+        for (entry, (canonical, suunto, icon)) in POI_DICTIONARY[1..].iter().zip(expected) {
+            assert_eq!(entry.canonical, canonical);
+            assert_eq!(entry.garmin, suunto.to_uppercase());
+            assert_eq!(entry.suunto, suunto);
+            assert_eq!(entry.icon, icon);
         }
     }
 }

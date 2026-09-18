@@ -486,7 +486,7 @@ mod tests {
     fn adds_suunto_type_without_touching_track_points() {
         let (converted, report) = convert_gpx(GPX, Vendor::Suunto).unwrap();
         assert!(converted.contains("<sym>Drinking Water</sym>"));
-        assert!(converted.contains("<type>Water</type>"));
+        assert!(converted.contains("<type>Drinking Water</type>"));
         assert!(converted.contains("<type>POI</type>"));
         assert!(converted.contains("<trkpt lat=\"1\" lon=\"2\"><type>non modificare</type>"));
         assert_eq!(report.waypoints, 2);
@@ -496,7 +496,7 @@ mod tests {
     #[test]
     fn replaces_existing_target_field_and_is_idempotent() {
         let source =
-            r#"<gpx><wpt lat="1" lon="2"><type>Peak</type><sym>Flag, Blue</sym></wpt></gpx>"#;
+            r#"<gpx><wpt lat="1" lon="2"><type>Summit</type><sym>Flag, Blue</sym></wpt></gpx>"#;
         let (once, report) = convert_gpx(source, Vendor::Garmin).unwrap();
         let (twice, _) = convert_gpx(&once, Vendor::Garmin).unwrap();
         assert!(once.contains("<type>SUMMIT</type>"));
@@ -515,7 +515,7 @@ mod tests {
 
     #[test]
     fn respects_gpx_child_order_and_namespace_prefix() {
-        let source = r#"<g:gpx xmlns:g="http://www.topografix.com/GPX/1/1"><g:wpt lat="1" lon="2"><g:type>Peak</g:type><g:fix>3d</g:fix></g:wpt></g:gpx>"#;
+        let source = r#"<g:gpx xmlns:g="http://www.topografix.com/GPX/1/1"><g:wpt lat="1" lon="2"><g:type>Summit</g:type><g:fix>3d</g:fix></g:wpt></g:gpx>"#;
         let (converted, _) = convert_gpx(source, Vendor::Garmin).unwrap();
         assert!(converted.contains("<g:type>SUMMIT</g:type><g:fix>3d</g:fix>"));
         assert!(!converted.contains("<g:sym>"));
