@@ -99,12 +99,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
         "Department Store",
         "ShoppingBasket"
     ),
-    poi!(
-        "drinking_water",
-        "WATER",
-        "Drinking Water",
-        "Droplet"
-    ),
+    poi!("drinking_water", "WATER", "Drinking Water", "Droplet"),
     poi!("exit", "EXIT", "Exit", "DoorOpen"),
     poi!("lodge", "REST AREA", "Lodge", "House"),
     poi!("lodging", "LODGING", "Lodging", "Bed"),
@@ -274,6 +269,15 @@ mod tests {
 
     #[test]
     fn dictionary_matches_the_scratch_mapping() {
+        let garmin_overrides = [
+            ("drinking_water", "WATER"),
+            ("lodge", "REST AREA"),
+            ("information", "INFO"),
+            ("picnic_area", "FOOD"),
+            ("restaurant", "FOOD"),
+            ("scenic_area", "OVERLOOK"),
+            ("water_source", "WATER"),
+        ];
         let expected = [
             ("alert", "Alert", Some("TriangleAlert")),
             ("anchor", "Anchor", Some("Anchor")),
@@ -332,7 +336,14 @@ mod tests {
         assert_eq!(POI_DICTIONARY.len(), expected.len() + 1);
         for (entry, (canonical, suunto, icon)) in POI_DICTIONARY[1..].iter().zip(expected) {
             assert_eq!(entry.canonical, canonical);
-            assert_eq!(entry.garmin, suunto.to_uppercase());
+            if let Some((_, garmin)) = garmin_overrides
+                .iter()
+                .find(|(candidate, _)| *candidate == canonical)
+            {
+                assert_eq!(entry.garmin, *garmin);
+            } else {
+                assert_eq!(entry.garmin, suunto.to_uppercase());
+            }
             assert_eq!(entry.suunto, suunto);
             assert_eq!(entry.icon, icon);
         }
