@@ -550,7 +550,7 @@ mod tests {
   </wpt>
 </gpx>"#;
         let (converted, _) = convert_gpx(source, Vendor::Garmin).unwrap();
-        assert!(converted.contains("<type>DRINKING WATER</type>"));
+        assert!(converted.contains("<type>WATER</type>"));
         assert!(!converted.contains("<sym>"));
         assert!(
             !converted

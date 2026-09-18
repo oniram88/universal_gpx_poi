@@ -101,12 +101,12 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     ),
     poi!(
         "drinking_water",
-        "DRINKING WATER",
+        "WATER",
         "Drinking Water",
         "Droplet"
     ),
     poi!("exit", "EXIT", "Exit", "DoorOpen"),
-    poi!("lodge", "LODGE", "Lodge", "House"),
+    poi!("lodge", "REST AREA", "Lodge", "House"),
     poi!("lodging", "LODGING", "Lodging", "Bed"),
     poi!("forest", "FOREST", "Forest", "Trees"),
     poi!("gas_station", "GAS STATION", "Gas Station", "Fuel"),
@@ -118,7 +118,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     ),
     poi!("hotel", "HOTEL", "Hotel", "Bed"),
     poi!("house", "HOUSE", "House", "House"),
-    poi!("information", "INFORMATION", "Information", "Info"),
+    poi!("information", "INFO", "Information", "Info"),
     poi!("park", "PARK", "Park", "TreeDeciduous"),
     poi!(
         "parking_area",
@@ -127,8 +127,8 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
         "CircleParking"
     ),
     poi!("pharmacy", "PHARMACY", "Pharmacy", "Cross"),
-    poi!("picnic_area", "PICNIC AREA", "Picnic Area", "Utensils"),
-    poi!("restaurant", "RESTAURANT", "Restaurant", "Utensils"),
+    poi!("picnic_area", "FOOD", "Picnic Area", "Utensils"),
+    poi!("restaurant", "FOOD", "Restaurant", "Utensils"),
     poi!(
         "restricted_area",
         "RESTRICTED AREA",
@@ -137,7 +137,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     ),
     poi!("restroom", "RESTROOM", "Restroom", "Toilet"),
     poi!("road", "ROAD", "Road", "BrickWall"),
-    poi!("scenic_area", "SCENIC AREA", "Scenic Area", "Binoculars"),
+    poi!("scenic_area", "OVERLOOK", "Scenic Area", "Binoculars"),
     poi!("shelter", "SHELTER", "Shelter", "Tent"),
     poi!(
         "shopping_center",
@@ -149,7 +149,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     poi!("summit", "SUMMIT", "Summit", "Mountain"),
     poi!("telephone", "TELEPHONE", "Telephone", "Phone"),
     poi!("tunnel", "TUNNEL", "Tunnel", []),
-    poi!("water_source", "WATER SOURCE", "Water Source", "Droplet"),
+    poi!("water_source", "WATER", "Water Source", "Droplet"),
 ];
 
 pub(crate) struct Translation<'a> {
