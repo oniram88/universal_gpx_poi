@@ -19,280 +19,280 @@
         <ele>123276.9</ele>
         <name>Alert</name>
         <desc>Alert</desc>
-      <type>ALERT</type>
+        <type>ALERT</type>
     </wpt>
 
     <wpt lat="45.608011" lon="10.794567">
         <ele>123277.5</ele>
         <name>Anchor</name>
         <desc>Anchor</desc>
-      <type>ANCHOR</type>
+        <type>ANCHOR</type>
     </wpt>
 
     <wpt lat="45.608035" lon="10.794594">
         <ele>123277.3</ele>
         <name>Bank</name>
         <desc>Bank</desc>
-      <type>BANK</type>
+        <type>BANK</type>
     </wpt>
 
     <wpt lat="45.608093" lon="10.794542">
         <ele>123277.9</ele>
         <name>Beach</name>
         <desc>Beach</desc>
-      <type>BEACH</type>
+        <type>BEACH</type>
     </wpt>
 
     <wpt lat="45.608193" lon="10.794469">
         <ele>123278.8</ele>
         <name>Bike Trail</name>
         <desc>Bike Trail</desc>
-      <type>BIKE TRAIL</type>
+        <type>BIKE TRAIL</type>
     </wpt>
 
     <wpt lat="45.608331" lon="10.794417">
         <ele>123279.5</ele>
         <name>Binoculars</name>
         <desc>Binoculars</desc>
-      <type>BINOCULARS</type>
+        <type>BINOCULARS</type>
     </wpt>
 
     <wpt lat="45.608403" lon="10.794372">
         <ele>123279.8</ele>
         <name>Bridge</name>
         <desc>Bridge</desc>
-      <type>BRIDGE</type>
+        <type>BRIDGE</type>
     </wpt>
 
     <wpt lat="45.608461" lon="10.794342">
         <ele>123280</ele>
         <name>Building</name>
         <desc>Building</desc>
-      <type>BUILDING</type>
+        <type>BUILDING</type>
     </wpt>
 
     <wpt lat="45.608628" lon="10.794256">
         <ele>123283.7</ele>
         <name>Campground</name>
         <desc>Campground</desc>
-      <type>CAMPGROUND</type>
+        <type>CAMPGROUND</type>
     </wpt>
 
     <wpt lat="45.608974" lon="10.794219">
         <ele>123293.3</ele>
         <name>Car</name>
         <desc>Car</desc>
-      <type>CAR</type>
+        <type>CAR</type>
     </wpt>
 
     <wpt lat="45.609212" lon="10.794115">
         <ele>123299</ele>
         <name>Car Repair</name>
         <desc>Car Repair</desc>
-      <type>CAR REPAIR</type>
+        <type>CAR REPAIR</type>
     </wpt>
 
     <wpt lat="45.609228" lon="10.794113">
         <ele>123299.4</ele>
         <name>Convenience Store</name>
         <desc>Convenience Store</desc>
-      <type>CONVENIENCE STORE</type>
+        <type>CONVENIENCE STORE</type>
     </wpt>
 
     <wpt lat="45.609245" lon="10.794095">
         <ele>123299.8</ele>
         <name>Crossing</name>
         <desc>Crossing</desc>
-      <type>CROSSING</type>
+        <type>CROSSING</type>
     </wpt>
 
     <wpt lat="45.609274" lon="10.794077">
         <ele>123300.6</ele>
         <name>Department Store</name>
         <desc>Department Store</desc>
-      <type>DEPARTMENT STORE</type>
+        <type>DEPARTMENT STORE</type>
     </wpt>
 
     <wpt lat="45.60983" lon="10.794006">
         <ele>123308.8</ele>
         <name>Drinking Water</name>
         <desc>Drinking Water</desc>
-      <type>DRINKING WATER</type>
+        <type>DRINKING WATER</type>
     </wpt>
 
     <wpt lat="45.609906" lon="10.794023">
         <ele>123310</ele>
         <name>Exit</name>
         <desc>Exit</desc>
-      <type>EXIT</type>
+        <type>EXIT</type>
     </wpt>
 
     <wpt lat="45.610023" lon="10.794108">
         <ele>123311.3</ele>
         <name>Lodge</name>
         <desc>Lodge</desc>
-      <type>LODGE</type>
+        <type>LODGE</type>
     </wpt>
 
     <wpt lat="45.610083" lon="10.794234">
         <ele>123311.3</ele>
         <name>Lodging</name>
         <desc>Lodging</desc>
-      <type>LODGING</type>
+        <type>LODGING</type>
     </wpt>
 
     <wpt lat="45.610145" lon="10.794269">
         <ele>123312.4</ele>
         <name>Forest</name>
         <desc>Forest</desc>
-      <type>FOREST</type>
+        <type>FOREST</type>
     </wpt>
 
     <wpt lat="45.610318" lon="10.794245">
         <ele>123316.3</ele>
         <name>Gas Station</name>
         <desc>Gas Station</desc>
-      <type>GAS STATION</type>
+        <type>GAS STATION</type>
     </wpt>
 
     <wpt lat="45.610492" lon="10.79422">
         <ele>123320</ele>
         <name>Ground Transportation</name>
         <desc>Ground Transportation</desc>
-      <type>GROUND TRANSPORTATION</type>
+        <type>GROUND TRANSPORTATION</type>
     </wpt>
 
     <wpt lat="45.610605" lon="10.794153">
         <ele>123322.5</ele>
         <name>Hotel</name>
         <desc>Hotel</desc>
-      <type>HOTEL</type>
+        <type>HOTEL</type>
     </wpt>
 
     <wpt lat="45.610774" lon="10.794046">
         <ele>123326.3</ele>
         <name>House</name>
         <desc>House</desc>
-      <type>HOUSE</type>
+        <type>HOUSE</type>
     </wpt>
 
     <wpt lat="45.610963" lon="10.794005">
         <ele>123330.2</ele>
         <name>Information</name>
         <desc>Information</desc>
-      <type>INFORMATION</type>
+        <type>INFORMATION</type>
     </wpt>
 
     <wpt lat="45.611026" lon="10.794059">
         <ele>123330.4</ele>
         <name>Park</name>
         <desc>Park</desc>
-      <type>PARK</type>
+        <type>PARK</type>
     </wpt>
 
     <wpt lat="45.6111" lon="10.794101">
         <ele>123331</ele>
         <name>Parking Area</name>
         <desc>Parking Area</desc>
-      <type>PARKING AREA</type>
+        <type>PARKING AREA</type>
     </wpt>
 
     <wpt lat="45.611194" lon="10.794193">
         <ele>123331.8</ele>
         <name>Pharmacy</name>
         <desc>Pharmacy</desc>
-      <type>PHARMACY</type>
+        <type>PHARMACY</type>
     </wpt>
 
     <wpt lat="45.611278" lon="10.794306">
         <ele>123332.6</ele>
         <name>Picnic Area</name>
         <desc>Picnic Area</desc>
-      <type>PICNIC AREA</type>
+        <type>PICNIC AREA</type>
     </wpt>
 
     <wpt lat="45.611322" lon="10.794443">
         <ele>123332.6</ele>
         <name>Restaurant</name>
         <desc>Restaurant</desc>
-      <type>RESTAURANT</type>
+        <type>RESTAURANT</type>
     </wpt>
 
     <wpt lat="45.611393" lon="10.794668">
         <ele>123333.3</ele>
         <name>Restricted Area</name>
         <desc>Restricted Area</desc>
-      <type>RESTRICTED AREA</type>
+        <type>RESTRICTED AREA</type>
     </wpt>
 
     <wpt lat="45.611432" lon="10.794708">
         <ele>123334.6</ele>
         <name>Restroom</name>
         <desc>Restroom</desc>
-      <type>RESTROOM</type>
+        <type>RESTROOM</type>
     </wpt>
 
     <wpt lat="45.611519" lon="10.794724">
         <ele>123337.7</ele>
         <name>Road</name>
         <desc>Road</desc>
-      <type>ROAD</type>
+        <type>ROAD</type>
     </wpt>
 
     <wpt lat="45.611601" lon="10.794818">
         <ele>123340.2</ele>
         <name>Scenic Area</name>
         <desc>Scenic Area</desc>
-      <type>SCENIC AREA</type>
+        <type>SCENIC AREA</type>
     </wpt>
 
     <wpt lat="45.61185" lon="10.795164">
         <ele>123347.1</ele>
         <name>Shelter</name>
         <desc>Shelter</desc>
-      <type>SHELTER</type>
+        <type>SHELTER</type>
     </wpt>
 
     <wpt lat="45.61189" lon="10.795258">
         <ele>123347.9</ele>
         <name>Shopping Center</name>
         <desc>Shopping Center</desc>
-      <type>SHOPPING CENTER</type>
+        <type>SHOPPING CENTER</type>
     </wpt>
 
     <wpt lat="45.612021" lon="10.795489">
         <ele>123349.3</ele>
         <name>Shower</name>
         <desc>Shower</desc>
-      <type>SHOWER</type>
+        <type>SHOWER</type>
     </wpt>
 
     <wpt lat="45.612207" lon="10.795792">
         <ele>123348.3</ele>
         <name>Summit</name>
         <desc>Summit</desc>
-      <type>SUMMIT</type>
+        <type>SUMMIT</type>
     </wpt>
 
     <wpt lat="45.612277" lon="10.795847">
         <ele>123348.3</ele>
         <name>Telephone</name>
         <desc>Telephone</desc>
-      <type>TELEPHONE</type>
+        <type>TELEPHONE</type>
     </wpt>
 
     <wpt lat="45.612402" lon="10.795917">
         <ele>123349</ele>
         <name>Tunnel</name>
         <desc>Tunnel</desc>
-      <type>TUNNEL</type>
+        <type>TUNNEL</type>
     </wpt>
 
     <wpt lat="45.612537" lon="10.795945">
         <ele>123350.1</ele>
         <name>Water Source</name>
         <desc>Water Source</desc>
-      <type>WATER SOURCE</type>
+        <type>WATER SOURCE</type>
     </wpt>
 
     <trk>

@@ -20,7 +20,7 @@
         <name>Alert</name>
         <desc>Alert</desc>
         <sym>Alert</sym>
-      <type>Alert</type>
+        <type>Alert</type>
     </wpt>
 
     <wpt lat="45.608011" lon="10.794567">
@@ -28,7 +28,7 @@
         <name>Anchor</name>
         <desc>Anchor</desc>
         <sym>Anchor</sym>
-      <type>Anchor</type>
+        <type>Anchor</type>
     </wpt>
 
     <wpt lat="45.608035" lon="10.794594">
@@ -36,7 +36,7 @@
         <name>Bank</name>
         <desc>Bank</desc>
         <sym>Bank</sym>
-      <type>Bank</type>
+        <type>Bank</type>
     </wpt>
 
     <wpt lat="45.608093" lon="10.794542">
@@ -44,7 +44,7 @@
         <name>Beach</name>
         <desc>Beach</desc>
         <sym>Beach</sym>
-      <type>Beach</type>
+        <type>Beach</type>
     </wpt>
 
     <wpt lat="45.608193" lon="10.794469">
@@ -52,7 +52,7 @@
         <name>Bike Trail</name>
         <desc>Bike Trail</desc>
         <sym>Bike Trail</sym>
-      <type>Bike Trail</type>
+        <type>Bike Trail</type>
     </wpt>
 
     <wpt lat="45.608331" lon="10.794417">
@@ -60,7 +60,7 @@
         <name>Binoculars</name>
         <desc>Binoculars</desc>
         <sym>Binoculars</sym>
-      <type>Binoculars</type>
+        <type>Binoculars</type>
     </wpt>
 
     <wpt lat="45.608403" lon="10.794372">
@@ -68,7 +68,7 @@
         <name>Bridge</name>
         <desc>Bridge</desc>
         <sym>Bridge</sym>
-      <type>Bridge</type>
+        <type>Bridge</type>
     </wpt>
 
     <wpt lat="45.608461" lon="10.794342">
@@ -76,7 +76,7 @@
         <name>Building</name>
         <desc>Building</desc>
         <sym>Building</sym>
-      <type>Building</type>
+        <type>Building</type>
     </wpt>
 
     <wpt lat="45.608628" lon="10.794256">
@@ -84,7 +84,7 @@
         <name>Campground</name>
         <desc>Campground</desc>
         <sym>Campground</sym>
-      <type>Campground</type>
+        <type>Campground</type>
     </wpt>
 
     <wpt lat="45.608974" lon="10.794219">
@@ -92,7 +92,7 @@
         <name>Car</name>
         <desc>Car</desc>
         <sym>Car</sym>
-      <type>Car</type>
+        <type>Car</type>
     </wpt>
 
     <wpt lat="45.609212" lon="10.794115">
@@ -100,7 +100,7 @@
         <name>Car Repair</name>
         <desc>Car Repair</desc>
         <sym>Car Repair</sym>
-      <type>Car Repair</type>
+        <type>Car Repair</type>
     </wpt>
 
     <wpt lat="45.609228" lon="10.794113">
@@ -108,7 +108,7 @@
         <name>Convenience Store</name>
         <desc>Convenience Store</desc>
         <sym>Convenience Store</sym>
-      <type>Convenience Store</type>
+        <type>Convenience Store</type>
     </wpt>
 
     <wpt lat="45.609245" lon="10.794095">
@@ -116,7 +116,7 @@
         <name>Crossing</name>
         <desc>Crossing</desc>
         <sym>Crossing</sym>
-      <type>Crossing</type>
+        <type>Crossing</type>
     </wpt>
 
     <wpt lat="45.609274" lon="10.794077">
@@ -124,7 +124,7 @@
         <name>Department Store</name>
         <desc>Department Store</desc>
         <sym>Department Store</sym>
-      <type>Department Store</type>
+        <type>Department Store</type>
     </wpt>
 
     <wpt lat="45.60983" lon="10.794006">
@@ -132,7 +132,7 @@
         <name>Drinking Water</name>
         <desc>Drinking Water</desc>
         <sym>Drinking Water</sym>
-      <type>Drinking Water</type>
+        <type>Drinking Water</type>
     </wpt>
 
     <wpt lat="45.609906" lon="10.794023">
@@ -140,7 +140,7 @@
         <name>Exit</name>
         <desc>Exit</desc>
         <sym>Exit</sym>
-      <type>Exit</type>
+        <type>Exit</type>
     </wpt>
 
     <wpt lat="45.610023" lon="10.794108">
@@ -148,7 +148,7 @@
         <name>Lodge</name>
         <desc>Lodge</desc>
         <sym>Lodge</sym>
-      <type>Lodge</type>
+        <type>Lodge</type>
     </wpt>
 
     <wpt lat="45.610083" lon="10.794234">
@@ -156,7 +156,7 @@
         <name>Lodging</name>
         <desc>Lodging</desc>
         <sym>Lodging</sym>
-      <type>Lodging</type>
+        <type>Lodging</type>
     </wpt>
 
     <wpt lat="45.610145" lon="10.794269">
@@ -164,7 +164,7 @@
         <name>Forest</name>
         <desc>Forest</desc>
         <sym>Forest</sym>
-      <type>Forest</type>
+        <type>Forest</type>
     </wpt>
 
     <wpt lat="45.610318" lon="10.794245">
@@ -172,7 +172,7 @@
         <name>Gas Station</name>
         <desc>Gas Station</desc>
         <sym>Gas Station</sym>
-      <type>Gas Station</type>
+        <type>Gas Station</type>
     </wpt>
 
     <wpt lat="45.610492" lon="10.79422">
@@ -180,7 +180,7 @@
         <name>Ground Transportation</name>
         <desc>Ground Transportation</desc>
         <sym>Ground Transportation</sym>
-      <type>Ground Transportation</type>
+        <type>Ground Transportation</type>
     </wpt>
 
     <wpt lat="45.610605" lon="10.794153">
@@ -188,7 +188,7 @@
         <name>Hotel</name>
         <desc>Hotel</desc>
         <sym>Hotel</sym>
-      <type>Hotel</type>
+        <type>Hotel</type>
     </wpt>
 
     <wpt lat="45.610774" lon="10.794046">
@@ -196,7 +196,7 @@
         <name>House</name>
         <desc>House</desc>
         <sym>House</sym>
-      <type>House</type>
+        <type>House</type>
     </wpt>
 
     <wpt lat="45.610963" lon="10.794005">
@@ -204,7 +204,7 @@
         <name>Information</name>
         <desc>Information</desc>
         <sym>Information</sym>
-      <type>Information</type>
+        <type>Information</type>
     </wpt>
 
     <wpt lat="45.611026" lon="10.794059">
@@ -212,7 +212,7 @@
         <name>Park</name>
         <desc>Park</desc>
         <sym>Park</sym>
-      <type>Park</type>
+        <type>Park</type>
     </wpt>
 
     <wpt lat="45.6111" lon="10.794101">
@@ -220,7 +220,7 @@
         <name>Parking Area</name>
         <desc>Parking Area</desc>
         <sym>Parking Area</sym>
-      <type>Parking Area</type>
+        <type>Parking Area</type>
     </wpt>
 
     <wpt lat="45.611194" lon="10.794193">
@@ -228,7 +228,7 @@
         <name>Pharmacy</name>
         <desc>Pharmacy</desc>
         <sym>Pharmacy</sym>
-      <type>Pharmacy</type>
+        <type>Pharmacy</type>
     </wpt>
 
     <wpt lat="45.611278" lon="10.794306">
@@ -236,7 +236,7 @@
         <name>Picnic Area</name>
         <desc>Picnic Area</desc>
         <sym>Picnic Area</sym>
-      <type>Picnic Area</type>
+        <type>Picnic Area</type>
     </wpt>
 
     <wpt lat="45.611322" lon="10.794443">
@@ -244,7 +244,7 @@
         <name>Restaurant</name>
         <desc>Restaurant</desc>
         <sym>Restaurant</sym>
-      <type>Restaurant</type>
+        <type>Restaurant</type>
     </wpt>
 
     <wpt lat="45.611393" lon="10.794668">
@@ -252,7 +252,7 @@
         <name>Restricted Area</name>
         <desc>Restricted Area</desc>
         <sym>Restricted Area</sym>
-      <type>Restricted Area</type>
+        <type>Restricted Area</type>
     </wpt>
 
     <wpt lat="45.611432" lon="10.794708">
@@ -260,7 +260,7 @@
         <name>Restroom</name>
         <desc>Restroom</desc>
         <sym>Restroom</sym>
-      <type>Restroom</type>
+        <type>Restroom</type>
     </wpt>
 
     <wpt lat="45.611519" lon="10.794724">
@@ -268,7 +268,7 @@
         <name>Road</name>
         <desc>Road</desc>
         <sym>Road</sym>
-      <type>Road</type>
+        <type>Road</type>
     </wpt>
 
     <wpt lat="45.611601" lon="10.794818">
@@ -276,7 +276,7 @@
         <name>Scenic Area</name>
         <desc>Scenic Area</desc>
         <sym>Scenic Area</sym>
-      <type>Scenic Area</type>
+        <type>Scenic Area</type>
     </wpt>
 
     <wpt lat="45.61185" lon="10.795164">
@@ -284,7 +284,7 @@
         <name>Shelter</name>
         <desc>Shelter</desc>
         <sym>Shelter</sym>
-      <type>Shelter</type>
+        <type>Shelter</type>
     </wpt>
 
     <wpt lat="45.61189" lon="10.795258">
@@ -292,7 +292,7 @@
         <name>Shopping Center</name>
         <desc>Shopping Center</desc>
         <sym>Shopping Center</sym>
-      <type>Shopping Center</type>
+        <type>Shopping Center</type>
     </wpt>
 
     <wpt lat="45.612021" lon="10.795489">
@@ -300,7 +300,7 @@
         <name>Shower</name>
         <desc>Shower</desc>
         <sym>Shower</sym>
-      <type>Shower</type>
+        <type>Shower</type>
     </wpt>
 
     <wpt lat="45.612207" lon="10.795792">
@@ -308,7 +308,7 @@
         <name>Summit</name>
         <desc>Summit</desc>
         <sym>Summit</sym>
-      <type>Summit</type>
+        <type>Summit</type>
     </wpt>
 
     <wpt lat="45.612277" lon="10.795847">
@@ -316,7 +316,7 @@
         <name>Telephone</name>
         <desc>Telephone</desc>
         <sym>Telephone</sym>
-      <type>Telephone</type>
+        <type>Telephone</type>
     </wpt>
 
     <wpt lat="45.612402" lon="10.795917">
@@ -324,7 +324,7 @@
         <name>Tunnel</name>
         <desc>Tunnel</desc>
         <sym>Tunnel</sym>
-      <type>Tunnel</type>
+        <type>Tunnel</type>
     </wpt>
 
     <wpt lat="45.612537" lon="10.795945">
@@ -332,7 +332,7 @@
         <name>Water Source</name>
         <desc>Water Source</desc>
         <sym>Water Source</sym>
-      <type>Water Source</type>
+        <type>Water Source</type>
     </wpt>
 
     <trk>
