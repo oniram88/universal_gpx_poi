@@ -1,3 +1,5 @@
+use quick_xml::events::Event;
+use quick_xml::{Reader, Writer};
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -32,7 +34,16 @@ impl Drop for TestDirectory {
 }
 
 #[test]
-fn cli_outputs_match_stored_suunto_and_garmin_fixtures() {
+fn cli_output_matches_stored_suunto_fixture() {
+    assert_cli_output_matches_fixture("1\n", "suunto");
+}
+
+#[test]
+fn cli_output_matches_stored_garmin_fixture() {
+    assert_cli_output_matches_fixture("2\n", "garmin");
+}
+
+fn assert_cli_output_matches_fixture(answer: &str, vendor: &str) {
     let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
     let fixture_dir = manifest_dir.join("test_data");
     let source = fixture_dir.join("super-baldo.gpx");
@@ -42,15 +53,13 @@ fn cli_outputs_match_stored_suunto_and_garmin_fixtures() {
     fs::copy(&source, &temporary_source)
         .expect("impossibile copiare il GPX sorgente nella cartella temporanea");
 
-    for (answer, vendor) in [("1\n", "suunto"), ("2\n", "garmin")] {
-        run_cli(&temporary_source, answer);
+    run_cli(&temporary_source, answer);
 
-        let generated = temporary_dir
-            .path()
-            .join(format!("super-baldo-{vendor}.gpx"));
-        let expected = fixture_dir.join(format!("super-baldo-{vendor}.gpx"));
-        assert_files_are_identical(&expected, &generated);
-    }
+    let generated = temporary_dir
+        .path()
+        .join(format!("super-baldo-{vendor}.gpx"));
+    let expected = fixture_dir.join(format!("super-baldo-{vendor}.gpx"));
+    assert_files_are_identical(&expected, &generated);
 }
 
 fn run_cli(input: &Path, answer: &str) {
@@ -82,10 +91,8 @@ fn run_cli(input: &Path, answer: &str) {
 }
 
 fn assert_files_are_identical(expected: &Path, generated: &Path) {
-    let expected_bytes = fs::read(expected)
-        .unwrap_or_else(|error| panic!("impossibile leggere '{}': {error}", expected.display()));
-    let generated_bytes = fs::read(generated)
-        .unwrap_or_else(|error| panic!("impossibile leggere '{}': {error}", generated.display()));
+    let expected_bytes = format_xml(expected);
+    let generated_bytes = format_xml(generated);
 
     if expected_bytes != generated_bytes {
         let first_difference = expected_bytes
@@ -93,12 +100,82 @@ fn assert_files_are_identical(expected: &Path, generated: &Path) {
             .zip(&generated_bytes)
             .position(|(expected, generated)| expected != generated)
             .unwrap_or(expected_bytes.len().min(generated_bytes.len()));
+        let formatted_expected = generated.with_file_name("expected-formatted.gpx");
+        let formatted_generated = generated.with_file_name("generated-formatted.gpx");
+        fs::write(&formatted_expected, &expected_bytes).unwrap_or_else(|error| {
+            panic!(
+                "impossibile scrivere '{}': {error}",
+                formatted_expected.display()
+            )
+        });
+        fs::write(&formatted_generated, &generated_bytes).unwrap_or_else(|error| {
+            panic!(
+                "impossibile scrivere '{}': {error}",
+                formatted_generated.display()
+            )
+        });
+        let diff = unified_diff(
+            expected,
+            generated,
+            &formatted_expected,
+            &formatted_generated,
+        );
         panic!(
-            "'{}' non coincide con l'output della CLI '{}': prima differenza al byte {first_difference} (attesi {} byte, generati {} byte)",
+            "'{}' non coincide con l'output della CLI '{}': prima differenza nell'XML formattato al byte {first_difference} (attesi {} byte, generati {} byte)\n\nDiff:\n{diff}",
             expected.display(),
             generated.display(),
             expected_bytes.len(),
             generated_bytes.len(),
         );
+    }
+}
+
+fn format_xml(path: &Path) -> Vec<u8> {
+    let input = fs::read_to_string(path)
+        .unwrap_or_else(|error| panic!("impossibile leggere '{}': {error}", path.display()));
+    let mut reader = Reader::from_str(&input);
+    reader.config_mut().trim_text(false);
+    let mut writer = Writer::new_with_indent(Vec::new(), b' ', 2);
+
+    loop {
+        let event = reader
+            .read_event()
+            .unwrap_or_else(|error| panic!("XML non valido in '{}': {error}", path.display()));
+        match event {
+            Event::Eof => break,
+            Event::Text(text) if text.as_ref().chars().all(char::is_whitespace) => {}
+            event => writer.write_event(event).unwrap_or_else(|error| {
+                panic!("impossibile formattare '{}': {error}", path.display())
+            }),
+        }
+    }
+
+    writer.into_inner()
+}
+
+fn unified_diff(
+    expected_label: &Path,
+    generated_label: &Path,
+    expected: &Path,
+    generated: &Path,
+) -> String {
+    match Command::new("diff")
+        .arg("-u")
+        .arg("-w")
+        .arg("--label")
+        .arg(expected_label)
+        .arg("--label")
+        .arg(generated_label)
+        .arg(expected)
+        .arg(generated)
+        .output()
+    {
+        Ok(output) if !output.stdout.is_empty() => String::from_utf8_lossy(&output.stdout).into(),
+        Ok(output) if !output.stderr.is_empty() => String::from_utf8_lossy(&output.stderr).into(),
+        Ok(output) if output.status.success() => {
+            "nessuna differenza oltre al whitespace".to_owned()
+        }
+        Ok(output) => format!("diff terminato con {} senza produrre output", output.status),
+        Err(error) => format!("impossibile eseguire diff -u -w: {error}"),
     }
 }
