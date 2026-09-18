@@ -328,10 +328,30 @@ fn remove_direct_children(events: &mut Vec<Event<'static>>, wanted: &str) {
                     }
                     end_index += 1;
                 }
-                events.drain(index..end_index);
+                let remove_from = if index > 1
+                    && end_index < events.len()
+                    && is_whitespace(&events[index - 1])
+                    && is_whitespace(&events[end_index])
+                {
+                    index - 1
+                } else {
+                    index
+                };
+                events.drain(remove_from..end_index);
+                index = remove_from;
             }
             Event::Empty(start) if depth == 0 && is_local_name(start, wanted) => {
-                events.remove(index);
+                let remove_from = if index > 1
+                    && index + 1 < events.len()
+                    && is_whitespace(&events[index - 1])
+                    && is_whitespace(&events[index + 1])
+                {
+                    index - 1
+                } else {
+                    index
+                };
+                events.drain(remove_from..=index);
+                index = remove_from;
             }
             Event::Start(_) => {
                 depth += 1;
@@ -523,10 +543,20 @@ mod tests {
 
     #[test]
     fn garmin_uses_type_instead_of_sym() {
-        let source = r#"<gpx><wpt lat="1" lon="2"><name>Fontana</name><sym>Drinking Water</sym></wpt></gpx>"#;
+        let source = r#"<gpx>
+  <wpt lat="1" lon="2">
+    <name>Fontana</name>
+    <sym>Drinking Water</sym>
+  </wpt>
+</gpx>"#;
         let (converted, _) = convert_gpx(source, Vendor::Garmin).unwrap();
         assert!(converted.contains("<type>DRINKING WATER</type>"));
         assert!(!converted.contains("<sym>"));
+        assert!(
+            !converted
+                .lines()
+                .any(|line| !line.is_empty() && line.trim().is_empty())
+        );
     }
 
     #[test]
