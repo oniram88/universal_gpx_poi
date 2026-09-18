@@ -131,7 +131,7 @@
         <ele>123311.3</ele>
         <name>Lodge</name>
         <desc>Lodge</desc>
-        <type>LODGE</type>
+      <type>REST AREA</type>
     </wpt>
 
     <wpt lat="45.610083" lon="10.794234">
@@ -180,7 +180,7 @@
         <ele>123330.2</ele>
         <name>Information</name>
         <desc>Information</desc>
-        <type>INFORMATION</type>
+      <type>INFO</type>
     </wpt>
 
     <wpt lat="45.611026" lon="10.794059">
@@ -208,14 +208,14 @@
         <ele>123332.6</ele>
         <name>Picnic Area</name>
         <desc>Picnic Area</desc>
-        <type>PICNIC AREA</type>
+      <type>FOOD</type>
     </wpt>
 
     <wpt lat="45.611322" lon="10.794443">
         <ele>123332.6</ele>
         <name>Restaurant</name>
         <desc>Restaurant</desc>
-        <type>RESTAURANT</type>
+      <type>FOOD</type>
     </wpt>
 
     <wpt lat="45.611393" lon="10.794668">
@@ -243,7 +243,7 @@
         <ele>123340.2</ele>
         <name>Scenic Area</name>
         <desc>Scenic Area</desc>
-        <type>SCENIC AREA</type>
+      <type>OVERLOOK</type>
     </wpt>
 
     <wpt lat="45.61185" lon="10.795164">
@@ -292,7 +292,7 @@
         <ele>123350.1</ele>
         <name>Water Source</name>
         <desc>Water Source</desc>
-        <type>WATER SOURCE</type>
+      <type>WATER</type>
     </wpt>
 
     <trk>
