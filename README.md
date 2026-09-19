@@ -1,5 +1,7 @@
 # universal_gpx_poi
 
+[![CI](https://github.com/oniram88/universal_gpx_poi/actions/workflows/ci.yml/badge.svg)](https://github.com/oniram88/universal_gpx_poi/actions/workflows/ci.yml)
+
 Convertitore CLI dei waypoint/POI contenuti nei file GPX fra i vocabolari
 usati da Garmin e Suunto.
 
@@ -68,6 +70,27 @@ Per arrestare e rimuovere lo stack:
 
 ```bash
 docker compose down
+```
+
+Le immagini delle release sono disponibili anche su GitHub Container Registry:
+
+```bash
+docker run --rm -p 8080:80 ghcr.io/oniram88/universal_gpx_poi:latest
+```
+
+## Release
+
+La GitHub Action di release parte quando viene pubblicato un tag `vX.Y.Z`. La
+versione del tag deve coincidere con quella dichiarata in `Cargo.toml`. Il
+workflow crea una GitHub Release con gli eseguibili CLI per Linux (x86-64 e
+ARM64), macOS (Intel e Apple Silicon) e Windows (x86-64), i relativi checksum
+SHA-256 e l'immagine Docker multi-arch per `linux/amd64` e `linux/arm64`.
+
+Per pubblicare, ad esempio, la versione `0.1.0`:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
 ```
 
 ## Dizionario POI
