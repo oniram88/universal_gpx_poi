@@ -39,7 +39,8 @@ struct PoiTranslation {
 
 // Sia Garmin sia Suunto usano il testo di <type>. Continuiamo comunque a
 // riconoscere <sym> in input per poter convertire i GPX esistenti.
-// I valori Garmin sono maiuscoli; quelli Suunto hanno le iniziali maiuscole.
+// I valori Garmin sono maiuscoli; quelli Suunto appartengono all'elenco
+// testuale supportato da Suunto (non vengono mai scritti gli ID numerici).
 // La prima voce resta il fallback generale: WAYPOINT per Garmin e POI per Suunto.
 macro_rules! poi {
     ($canonical:literal, $garmin:literal, $suunto:literal, [$($alias:literal),* $(,)?]) => {
@@ -75,76 +76,51 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
             "basic"
         ]
     ),
-    poi!("alert", "ALERT", "Alert", "TriangleAlert"),
-    poi!("anchor", "CROSSING", "Anchor", "Anchor"),
+    poi!("alert", "ALERT", "Danger", "TriangleAlert"),
+    poi!("anchor", "CROSSING", "Coast", "Anchor"),
     poi!("bank", "STORE", "Bank", "Landmark"),
     poi!("beach", "BEACH", "Beach", "Shell"),
-    poi!("bike_trail", "BIKE TRAIL", "Bike Trail", "Bike"),
-    poi!("binoculars", "OVERLOOK", "Binoculars", "Binoculars"),
-    poi!("bridge", "BRIDGE", "Bridge", []),
+    poi!("bike_trail", "BIKE TRAIL", "Trail", "Bike"),
+    poi!("binoculars", "OVERLOOK", "Sight", "Binoculars"),
+    poi!("bridge", "BRIDGE", "Road", []),
     poi!("building", "STORE", "Building", "Building"),
-    poi!("campground", "CAMPSITE", "Campground", "Tent"),
+    poi!("campground", "CAMPSITE", "Camping", "Tent"),
     poi!("car", "CAR", "Car", "Car"),
-    poi!("car_repair", "SERVICE", "Car Repair", "Wrench"),
-    poi!(
-        "convenience_store",
-        "STORE",
-        "Convenience Store",
-        "ShoppingBasket"
-    ),
-    poi!("crossing", "CROSSING", "Crossing", "X"),
-    poi!(
-        "department_store",
-        "STORE",
-        "Department Store",
-        "ShoppingBasket"
-    ),
-    poi!("drinking_water", "WATER", "Drinking Water", "Droplet"),
+    poi!("car_repair", "SERVICE", "Car", "Wrench"),
+    poi!("convenience_store", "STORE", "Convenience Store", "ShoppingBasket"),
+    poi!("crossing", "CROSSING", "Crossroads", "X"),
+    poi!("department_store", "STORE", "Department Store", "ShoppingBasket"),
+    poi!("drinking_water", "WATER", "Water", "Droplet"),
     poi!("exit", "RACE OBSTACLE END", "Exit", "DoorOpen"),
-    poi!("lodge", "REST AREA", "Lodge", "House"),
+    poi!("lodge", "REST AREA", "Lodging", "House"),
     poi!("lodging", "LODGING", "Lodging", "Bed"),
     poi!("forest", "FOREST", "Forest", "Trees"),
-    poi!("gas_station", "GAS STATION", "Gas Station", "Fuel"),
+    poi!("gas_station", "GAS STATION", "Car", "Fuel"),
     poi!(
         "ground_transportation",
         "GROUND TRANSPORTATION",
-        "Ground Transportation",
+        "Road",
         "TrainFront"
     ),
     poi!("hotel", "LODGING", "Hotel", "Bed"),
-    poi!("house", "STORE", "House", "House"),
+    poi!("house", "STORE", "Home", "House"),
     poi!("information", "INFO", "Information", "Info"),
-    poi!("park", "PARK", "Park", "TreeDeciduous"),
-    poi!(
-        "parking_area",
-        "PARKING AREA",
-        "Parking Area",
-        "CircleParking"
-    ),
+    poi!("park", "PARK", "Meadow", "TreeDeciduous"),
+    poi!("parking_area", "PARKING AREA", "Parking", "CircleParking"),
     poi!("pharmacy", "PHARMACY", "Pharmacy", "Cross"),
-    poi!("picnic_area", "FOOD", "Picnic Area", "Utensils"),
+    poi!("picnic_area", "FOOD", "Food", "Utensils"),
     poi!("restaurant", "FOOD", "Restaurant", "Utensils"),
-    poi!(
-        "restricted_area",
-        "DANGER",
-        "Restricted Area",
-        "Construction"
-    ),
+    poi!("restricted_area", "DANGER", "Danger", "Construction"),
     poi!("restroom", "AID STATION", "Restroom", "Toilet"),
     poi!("road", "ROAD", "Road", "BrickWall"),
-    poi!("scenic_area", "OVERLOOK", "Scenic Area", "Binoculars"),
-    poi!("shelter", "SHELTER", "Shelter", "Tent"),
-    poi!(
-        "shopping_center",
-        "STORE",
-        "Shopping Center",
-        "ShoppingBasket"
-    ),
-    poi!("shower", "SHOWER", "Shower", "ShowerHead"),
-    poi!("summit", "SUMMIT", "Summit", "Mountain"),
+    poi!("scenic_area", "OVERLOOK", "Sight", "Binoculars"),
+    poi!("shelter", "SHELTER", "Camp", "Tent"),
+    poi!("shopping_center", "STORE", "Shopping Center", "ShoppingBasket"),
+    poi!("shower", "SHOWER", "Water", "ShowerHead"),
+    poi!("summit", "SUMMIT", "Peak", "Mountain"),
     poi!("telephone", "TELEPHONE", "Telephone", "Phone"),
-    poi!("tunnel", "TUNNEL", "Tunnel", []),
-    poi!("water_source", "WATER", "Water Source", "Droplet"),
+    poi!("tunnel", "TUNNEL", "Road", []),
+    poi!("water_source", "WATER", "Water", "Droplet"),
 ];
 
 pub(crate) struct Translation<'a> {
