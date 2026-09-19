@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.2.1 - 2026-09-19
+#### Bug Fixes
+- Update tag pattern in release.yml to allow more flexible versioning - (9f8b665) - Marino Bonetti
+- Remove cargo publish command from post-bump hooks in cog.toml - (8873873) - Marino Bonetti
+
+- - -
+
 ## 0.2.0 - 2026-09-19
 #### Features
 - Compilazione web con manifest - (f7b7301) - Marino Bonetti
