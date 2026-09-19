@@ -15,7 +15,6 @@
         </author>
     </metadata>
 
-
     <wpt lat="45.608011" lon="10.794567">
         <ele>123277.5</ele>
         <name>Anchor</name>
@@ -132,7 +131,7 @@
         <ele>123311.3</ele>
         <name>Lodging</name>
         <desc>Lodging</desc>
-        <type>LODGING</type>
+        <type>REST AREA</type>
     </wpt>
 
     <wpt lat="45.610145" lon="10.794269">
@@ -160,7 +159,7 @@
         <ele>123322.5</ele>
         <name>Hotel</name>
         <desc>Hotel</desc>
-        <type>LODGING</type>
+        <type>REST AREA</type>
     </wpt>
 
     <wpt lat="45.610774" lon="10.794046">
@@ -230,7 +229,7 @@
         <ele>123337.7</ele>
         <name>Road</name>
         <desc>Road</desc>
-        <type>ROAD</type>
+        <type>BRIDGE</type>
     </wpt>
 
     <wpt lat="45.611601" lon="10.794818">
