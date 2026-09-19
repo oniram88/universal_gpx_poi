@@ -3,7 +3,7 @@ use quick_xml::{Reader, Writer};
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::{Command, Output, Stdio};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 struct TestDirectory(PathBuf);
@@ -43,6 +43,54 @@ fn cli_output_matches_stored_garmin_fixture() {
     assert_cli_output_matches_fixture("2\n", "garmin");
 }
 
+#[test]
+fn cli_adds_a_timestamp_when_the_output_already_exists() {
+    let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let source = manifest_dir.join("test_data/super-baldo.gpx");
+    let temporary_dir = TestDirectory::new();
+    let temporary_source = temporary_dir.path().join("super-baldo.gpx");
+    fs::copy(source, &temporary_source)
+        .expect("impossibile copiare il GPX sorgente nella cartella temporanea");
+
+    run_cli(&temporary_source, "1\n");
+    let second_run = run_cli(&temporary_source, "1\n");
+
+    let mut generated: Vec<_> = fs::read_dir(temporary_dir.path())
+        .expect("impossibile leggere la cartella temporanea")
+        .map(|entry| entry.expect("voce della cartella non leggibile").path())
+        .filter(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| name.starts_with("super-baldo-suunto"))
+        })
+        .collect();
+    generated.sort();
+
+    assert_eq!(generated.len(), 2);
+    assert!(generated.contains(&temporary_dir.path().join("super-baldo-suunto.gpx")));
+    let timestamped = generated
+        .iter()
+        .find(|path| path.file_name().unwrap() != "super-baldo-suunto.gpx")
+        .expect("file con timestamp non trovato");
+    let timestamp = timestamped
+        .file_stem()
+        .and_then(|stem| stem.to_str())
+        .and_then(|stem| stem.strip_prefix("super-baldo-suunto-"))
+        .expect("nome del file con timestamp non valido");
+    assert!(
+        timestamp
+            .chars()
+            .all(|character| character.is_ascii_digit())
+    );
+    assert_eq!(
+        fs::read(temporary_dir.path().join("super-baldo-suunto.gpx")).unwrap(),
+        fs::read(timestamped).unwrap()
+    );
+    assert!(
+        String::from_utf8_lossy(&second_run.stdout).contains(&timestamped.display().to_string())
+    );
+}
+
 fn assert_cli_output_matches_fixture(answer: &str, vendor: &str) {
     let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
     let fixture_dir = manifest_dir.join("test_data");
@@ -62,7 +110,7 @@ fn assert_cli_output_matches_fixture(answer: &str, vendor: &str) {
     assert_files_are_identical(&expected, &generated);
 }
 
-fn run_cli(input: &Path, answer: &str) {
+fn run_cli(input: &Path, answer: &str) -> Output {
     let mut child = Command::new(env!("CARGO_BIN_EXE_universal_gpx_poi"))
         .arg(input)
         .stdin(Stdio::piped())
@@ -88,6 +136,7 @@ fn run_cli(input: &Path, answer: &str) {
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr),
     );
+    output
 }
 
 fn assert_files_are_identical(expected: &Path, generated: &Path) {
