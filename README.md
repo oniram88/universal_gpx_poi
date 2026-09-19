@@ -76,7 +76,7 @@ Le corrispondenze sono raccolte in `src/poi.rs`, nella tabella
 `POI_DICTIONARY`. Ogni voce ha:
 
 - un nome canonico interno;
-- i valori GPX per Garmin (maiuscoli) e Suunto (con iniziali maiuscole);
+- i valori GPX per Garmin e le etichette testuali supportate da Suunto;
 - una lista di alias riconosciuti in input;
 - il nome dell'icona Lucide, quando disponibile.
 
@@ -89,7 +89,8 @@ avviso, così è immediatamente evidente quale voce aggiungere al dizionario.
 
 GPX 1.1 definisce `sym` e `type` come stringhe, non come enum. Il convertitore
 scrive i valori di entrambi i formati in `type`: quelli Garmin interamente in
-maiuscolo, quelli Suunto con le iniziali maiuscole. `sym` viene comunque
+maiuscolo, quelli Suunto usando etichette testuali (per esempio `Water` e
+`Peak`), mai gli ID numerici. `sym` viene comunque
 riconosciuto nei file sorgente per compatibilita'.
 Gli insiemi effettivi possono variare in base a modello e firmware: per questo
 il dizionario è esplicito, conservativo ed estendibile.

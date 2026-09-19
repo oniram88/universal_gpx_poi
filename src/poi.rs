@@ -87,9 +87,19 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     poi!("campground", "CAMPSITE", "Camping", "Tent"),
     poi!("car", "CAR", "Car", "Car"),
     poi!("car_repair", "SERVICE", "Car", "Wrench"),
-    poi!("convenience_store", "STORE", "Convenience Store", "ShoppingBasket"),
+    poi!(
+        "convenience_store",
+        "STORE",
+        "Convenience Store",
+        "ShoppingBasket"
+    ),
     poi!("crossing", "CROSSING", "Crossroads", "X"),
-    poi!("department_store", "STORE", "Department Store", "ShoppingBasket"),
+    poi!(
+        "department_store",
+        "STORE",
+        "Department Store",
+        "ShoppingBasket"
+    ),
     poi!("drinking_water", "WATER", "Water", "Droplet"),
     poi!("exit", "RACE OBSTACLE END", "Exit", "DoorOpen"),
     poi!("lodge", "REST AREA", "Lodging", "House"),
@@ -115,7 +125,12 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     poi!("road", "ROAD", "Road", "BrickWall"),
     poi!("scenic_area", "OVERLOOK", "Sight", "Binoculars"),
     poi!("shelter", "SHELTER", "Camp", "Tent"),
-    poi!("shopping_center", "STORE", "Shopping Center", "ShoppingBasket"),
+    poi!(
+        "shopping_center",
+        "STORE",
+        "Shopping Center",
+        "ShoppingBasket"
+    ),
     poi!("shower", "SHOWER", "Water", "ShowerHead"),
     poi!("summit", "SUMMIT", "Peak", "Mountain"),
     poi!("telephone", "TELEPHONE", "Telephone", "Phone"),
@@ -178,6 +193,11 @@ fn find(value: &str) -> Option<&'static PoiTranslation> {
         .or_else(|| {
             POI_DICTIONARY
                 .iter()
+                .find(|entry| normalize(entry.canonical) == normalized)
+        })
+        .or_else(|| {
+            POI_DICTIONARY
+                .iter()
                 .find(|entry| normalize(entry.garmin) == normalized)
         })
         .or_else(|| {
@@ -212,7 +232,7 @@ mod tests {
     fn translates_values_for_both_targets() {
         assert_eq!(
             translate(Some("Drinking Water"), None, Vendor::Suunto).value,
-            "Drinking Water"
+            "Water"
         );
         assert_eq!(
             translate(None, Some("Summit"), Vendor::Garmin).value,
@@ -220,7 +240,7 @@ mod tests {
         );
         assert_eq!(
             translate(Some("REST AREA"), None, Vendor::Suunto).value,
-            "Lodge"
+            "Lodging"
         );
     }
 
@@ -228,19 +248,16 @@ mod tests {
     fn accepts_normalized_values() {
         assert_eq!(
             translate(Some("car_repair"), None, Vendor::Suunto).value,
-            "Car Repair"
+            "Car"
         );
     }
 
     #[test]
-    fn waypoint_is_the_only_general_fallback() {
+    fn uses_the_expected_general_fallbacks() {
         assert_eq!(POI_DICTIONARY[0].garmin, "WAYPOINT");
         assert_eq!(POI_DICTIONARY[0].suunto, "POI");
-        assert!(
-            POI_DICTIONARY[1..]
-                .iter()
-                .all(|entry| entry.garmin != "WAYPOINT" && entry.suunto != "POI")
-        );
+        assert_eq!(translate(None, None, Vendor::Garmin).value, "WAYPOINT");
+        assert_eq!(translate(None, None, Vendor::Suunto).value, "POI");
     }
 
     #[test]
@@ -322,9 +339,34 @@ mod tests {
             ("tunnel", "Tunnel", None),
             ("water_source", "Water Source", Some("Droplet")),
         ];
+        let suunto_overrides = [
+            ("alert", "Danger"),
+            ("anchor", "Coast"),
+            ("bike_trail", "Trail"),
+            ("binoculars", "Sight"),
+            ("bridge", "Road"),
+            ("campground", "Camping"),
+            ("car_repair", "Car"),
+            ("crossing", "Crossroads"),
+            ("drinking_water", "Water"),
+            ("lodge", "Lodging"),
+            ("gas_station", "Car"),
+            ("ground_transportation", "Road"),
+            ("house", "Home"),
+            ("park", "Meadow"),
+            ("parking_area", "Parking"),
+            ("picnic_area", "Food"),
+            ("restricted_area", "Danger"),
+            ("scenic_area", "Sight"),
+            ("shelter", "Camp"),
+            ("shower", "Water"),
+            ("summit", "Peak"),
+            ("tunnel", "Road"),
+            ("water_source", "Water"),
+        ];
 
         assert_eq!(POI_DICTIONARY.len(), expected.len() + 1);
-        for (entry, (canonical, suunto, icon)) in POI_DICTIONARY[1..].iter().zip(expected) {
+        for (entry, (canonical, original_label, icon)) in POI_DICTIONARY[1..].iter().zip(expected) {
             assert_eq!(entry.canonical, canonical);
             if let Some((_, garmin)) = garmin_overrides
                 .iter()
@@ -332,10 +374,22 @@ mod tests {
             {
                 assert_eq!(entry.garmin, *garmin);
             } else {
-                assert_eq!(entry.garmin, suunto.to_uppercase());
+                assert_eq!(entry.garmin, original_label.to_uppercase());
             }
-            assert_eq!(entry.suunto, suunto);
+            let expected_suunto = suunto_overrides
+                .iter()
+                .find(|(candidate, _)| *candidate == canonical)
+                .map_or(original_label, |(_, suunto)| *suunto);
+            assert_eq!(entry.suunto, expected_suunto);
             assert_eq!(entry.icon, icon);
+        }
+    }
+
+    #[test]
+    fn every_suunto_output_is_textual() {
+        for entry in POI_DICTIONARY {
+            assert!(!entry.suunto.trim().is_empty());
+            assert!(entry.suunto.parse::<i32>().is_err());
         }
     }
 }
