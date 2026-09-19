@@ -1,5 +1,7 @@
 # universal_gpx_poi
 
+[![CI](https://github.com/oniram88/universal_gpx_poi/actions/workflows/ci.yml/badge.svg)](https://github.com/oniram88/universal_gpx_poi/actions/workflows/ci.yml)
+
 Convertitore CLI dei waypoint/POI contenuti nei file GPX fra i vocabolari
 usati da Garmin e Suunto.
 
@@ -70,26 +72,48 @@ Per arrestare e rimuovere lo stack:
 docker compose down
 ```
 
+Le immagini delle release sono disponibili anche su GitHub Container Registry:
+
+```bash
+docker run --rm -p 8080:80 ghcr.io/oniram88/universal_gpx_poi:latest
+```
+
+## Release
+
+La GitHub Action di release parte quando viene pubblicato un tag `vX.Y.Z`. La
+versione del tag deve coincidere con quella dichiarata in `Cargo.toml`. Il
+workflow crea una GitHub Release con gli eseguibili CLI per Linux (x86-64 e
+ARM64), macOS (Intel e Apple Silicon) e Windows (x86-64), i relativi checksum
+SHA-256 e l'immagine Docker multi-arch per `linux/amd64` e `linux/arm64`.
+
+Per pubblicare, ad esempio, la versione `0.1.0`:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
 ## Dizionario POI
 
 Le corrispondenze sono raccolte in `src/poi.rs`, nella tabella
 `POI_DICTIONARY`. Ogni voce ha:
 
 - un nome canonico interno;
-- il valore Garmin;
-- il valore testuale Suunto;
-- una lista di alias riconosciuti in input.
+- i valori GPX per Garmin e le etichette testuali supportate da Suunto;
+- una lista di alias riconosciuti in input;
+- il nome dell'icona Lucide, quando disponibile.
 
-Il dizionario include tutti i tipi Suunto, da `Unknown` a `Campfire`. Nei file
-GPX viene scritto il valore testuale previsto da `<type>`. Un valore sconosciuto
-viene convertito nel tipo generico `WAYPOINT` per Garmin o `POI` per Suunto e
-mostrato in un avviso, così è immediatamente evidente quale voce aggiungere al
-dizionario.
+La prima voce del dizionario e' il fallback generale. Nei file GPX viene scritto
+il valore testuale previsto da `<type>`. Un valore sconosciuto viene convertito
+nel tipo generico `WAYPOINT` per Garmin o `POI` per Suunto e mostrato in un
+avviso, così è immediatamente evidente quale voce aggiungere al dizionario.
 
 ## Compatibilità
 
 GPX 1.1 definisce `sym` e `type` come stringhe, non come enum. Il convertitore
-scrive i valori di entrambi i formati in `type`; quelli Garmin sono tutti in
-maiuscolo. `sym` viene comunque riconosciuto nei file sorgente per compatibilita'.
+scrive i valori di entrambi i formati in `type`: quelli Garmin interamente in
+maiuscolo, quelli Suunto usando etichette testuali (per esempio `Water` e
+`Peak`), mai gli ID numerici. `sym` viene comunque
+riconosciuto nei file sorgente per compatibilita'.
 Gli insiemi effettivi possono variare in base a modello e firmware: per questo
 il dizionario è esplicito, conservativo ed estendibile.

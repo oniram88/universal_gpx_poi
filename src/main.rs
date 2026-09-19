@@ -3,6 +3,7 @@ use std::error::Error;
 use std::fs::{self, OpenOptions};
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use universal_gpx_poi::{Vendor, convert_gpx};
 
@@ -44,26 +45,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     let target = ask_vendor()?;
     let input = fs::read_to_string(&input_path)?;
     let (output, report) = convert_gpx(&input, target)?;
-    let output_path = output_path_for(&input_path, target);
-
-    // `create_new` combina controllo e creazione in un'unica operazione del
-    // filesystem, evitando che un altro processo possa creare e farci
-    // sovrascrivere il file fra una chiamata a `exists` e la scrittura.
-    let mut output_file = match OpenOptions::new()
-        .write(true)
-        .create_new(true)
-        .open(&output_path)
-    {
-        Ok(file) => file,
-        Err(error) if error.kind() == io::ErrorKind::AlreadyExists => {
-            return Err(format!(
-                "il file di output '{}' esiste gia'; rinominalo o rimuovilo prima di riprovare",
-                output_path.display()
-            )
-            .into());
-        }
-        Err(error) => return Err(error.into()),
-    };
+    let (output_path, mut output_file) = create_output_file(&input_path, target)?;
     output_file.write_all(output.as_bytes())?;
 
     println!(
@@ -116,6 +98,53 @@ fn output_path_for(input: &Path, target: Vendor) -> PathBuf {
     input.with_file_name(format!("{stem}-{}.gpx", target.name()))
 }
 
+fn timestamped_output_path_for(
+    input: &Path,
+    target: Vendor,
+    timestamp: u128,
+    attempt: u32,
+) -> PathBuf {
+    let stem = input
+        .file_stem()
+        .and_then(|stem| stem.to_str())
+        .unwrap_or("converted");
+    let collision_suffix = match attempt {
+        0 => String::new(),
+        attempt => format!("-{attempt}"),
+    };
+    input.with_file_name(format!(
+        "{stem}-{}-{timestamp}{collision_suffix}.gpx",
+        target.name()
+    ))
+}
+
+fn create_output_file(input: &Path, target: Vendor) -> Result<(PathBuf, fs::File), Box<dyn Error>> {
+    let default_path = output_path_for(input, target);
+    match open_new_file(&default_path) {
+        Ok(file) => return Ok((default_path, file)),
+        Err(error) if error.kind() != io::ErrorKind::AlreadyExists => return Err(error.into()),
+        Err(_) => {}
+    }
+
+    let timestamp = SystemTime::now().duration_since(UNIX_EPOCH)?.as_millis();
+    for attempt in 0.. {
+        let timestamped_path = timestamped_output_path_for(input, target, timestamp, attempt);
+        match open_new_file(&timestamped_path) {
+            Ok(file) => return Ok((timestamped_path, file)),
+            Err(error) if error.kind() == io::ErrorKind::AlreadyExists => continue,
+            Err(error) => return Err(error.into()),
+        }
+    }
+
+    unreachable!("il contatore dei nomi di output non può esaurirsi")
+}
+
+fn open_new_file(path: &Path) -> io::Result<fs::File> {
+    // `create_new` combina controllo e creazione in un'unica operazione del
+    // filesystem, evitando sovrascritture anche con più processi concorrenti.
+    OpenOptions::new().write(true).create_new(true).open(path)
+}
+
 fn print_help() {
     println!("universal_gpx_poi - converte i POI di un file GPX per Suunto o Garmin");
     println!();
@@ -124,4 +153,5 @@ fn print_help() {
     println!();
     println!("Dopo aver letto il file, il programma chiede il formato di destinazione.");
     println!("Il file originale non viene modificato.");
+    println!("Se il file di output esiste già, il nuovo nome include un timestamp.");
 }
