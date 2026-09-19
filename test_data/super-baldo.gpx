@@ -15,13 +15,6 @@
         </author>
     </metadata>
 
-    <wpt lat="45.607836" lon="10.79456">
-        <ele>123276.9</ele>
-        <name>Alert</name>
-        <desc>Alert</desc>
-        <sym>Alert</sym>
-    </wpt>
-
     <wpt lat="45.608011" lon="10.794567">
         <ele>123277.5</ele>
         <name>Anchor</name>
@@ -295,6 +288,13 @@
         <sym>Water Source</sym>
     </wpt>
 
+    <wpt lat="45.612538" lon="10.795946">
+        <ele>123276.9</ele>
+        <name>Alert</name>
+        <desc>Alert</desc>
+        <sym>Alert</sym>
+    </wpt>
+
     <trk>
         <name>Super baldo</name>
         <extensions>
@@ -421,7 +421,15 @@
                 <ele>349</ele>
             </trkpt>
             <trkpt lat="45.612537" lon="10.795945">
-                <ele>350.1</ele>
+                <ele>350</ele>
+            </trkpt>
+
+            <trkpt lat="45.612538" lon="10.795946">
+                <ele>351</ele>
+            </trkpt>
+
+            <trkpt lat="45.612539" lon="10.795947">
+                <ele>352</ele>
             </trkpt>
 
         </trkseg>
