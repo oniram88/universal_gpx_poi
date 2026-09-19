@@ -76,31 +76,31 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
         ]
     ),
     poi!("alert", "ALERT", "Alert", "TriangleAlert"),
-    poi!("anchor", "ANCHOR", "Anchor", "Anchor"),
-    poi!("bank", "BANK", "Bank", "Landmark"),
+    poi!("anchor", "CROSSING", "Anchor", "Anchor"),
+    poi!("bank", "STORE", "Bank", "Landmark"),
     poi!("beach", "BEACH", "Beach", "Shell"),
     poi!("bike_trail", "BIKE TRAIL", "Bike Trail", "Bike"),
-    poi!("binoculars", "BINOCULARS", "Binoculars", "Binoculars"),
+    poi!("binoculars", "OVERLOOK", "Binoculars", "Binoculars"),
     poi!("bridge", "BRIDGE", "Bridge", []),
-    poi!("building", "BUILDING", "Building", "Building"),
-    poi!("campground", "CAMPGROUND", "Campground", "Tent"),
+    poi!("building", "STORE", "Building", "Building"),
+    poi!("campground", "CAMPSITE", "Campground", "Tent"),
     poi!("car", "CAR", "Car", "Car"),
-    poi!("car_repair", "CAR REPAIR", "Car Repair", "Wrench"),
+    poi!("car_repair", "SERVICE", "Car Repair", "Wrench"),
     poi!(
         "convenience_store",
-        "CONVENIENCE STORE",
+        "STORE",
         "Convenience Store",
         "ShoppingBasket"
     ),
     poi!("crossing", "CROSSING", "Crossing", "X"),
     poi!(
         "department_store",
-        "DEPARTMENT STORE",
+        "STORE",
         "Department Store",
         "ShoppingBasket"
     ),
     poi!("drinking_water", "WATER", "Drinking Water", "Droplet"),
-    poi!("exit", "EXIT", "Exit", "DoorOpen"),
+    poi!("exit", "RACE OBSTACLE END", "Exit", "DoorOpen"),
     poi!("lodge", "REST AREA", "Lodge", "House"),
     poi!("lodging", "LODGING", "Lodging", "Bed"),
     poi!("forest", "FOREST", "Forest", "Trees"),
@@ -111,8 +111,8 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
         "Ground Transportation",
         "TrainFront"
     ),
-    poi!("hotel", "HOTEL", "Hotel", "Bed"),
-    poi!("house", "HOUSE", "House", "House"),
+    poi!("hotel", "LODGING", "Hotel", "Bed"),
+    poi!("house", "STORE", "House", "House"),
     poi!("information", "INFO", "Information", "Info"),
     poi!("park", "PARK", "Park", "TreeDeciduous"),
     poi!(
@@ -126,17 +126,17 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     poi!("restaurant", "FOOD", "Restaurant", "Utensils"),
     poi!(
         "restricted_area",
-        "RESTRICTED AREA",
+        "DANGER",
         "Restricted Area",
         "Construction"
     ),
-    poi!("restroom", "RESTROOM", "Restroom", "Toilet"),
+    poi!("restroom", "AID STATION", "Restroom", "Toilet"),
     poi!("road", "ROAD", "Road", "BrickWall"),
     poi!("scenic_area", "OVERLOOK", "Scenic Area", "Binoculars"),
     poi!("shelter", "SHELTER", "Shelter", "Tent"),
     poi!(
         "shopping_center",
-        "SHOPPING CENTER",
+        "STORE",
         "Shopping Center",
         "ShoppingBasket"
     ),
@@ -243,7 +243,7 @@ mod tests {
             "SUMMIT"
         );
         assert_eq!(
-            translate(Some("LODGE"), None, Vendor::Suunto).value,
+            translate(Some("REST AREA"), None, Vendor::Suunto).value,
             "Lodge"
         );
     }
@@ -270,12 +270,26 @@ mod tests {
     #[test]
     fn dictionary_matches_the_scratch_mapping() {
         let garmin_overrides = [
+            ("anchor", "CROSSING"),
+            ("bank", "STORE"),
+            ("binoculars", "OVERLOOK"),
+            ("building", "STORE"),
+            ("campground", "CAMPSITE"),
+            ("car_repair", "SERVICE"),
+            ("convenience_store", "STORE"),
+            ("department_store", "STORE"),
             ("drinking_water", "WATER"),
+            ("exit", "RACE OBSTACLE END"),
             ("lodge", "REST AREA"),
+            ("hotel", "LODGING"),
+            ("house", "STORE"),
             ("information", "INFO"),
             ("picnic_area", "FOOD"),
             ("restaurant", "FOOD"),
+            ("restricted_area", "DANGER"),
+            ("restroom", "AID STATION"),
             ("scenic_area", "OVERLOOK"),
+            ("shopping_center", "STORE"),
             ("water_source", "WATER"),
         ];
         let expected = [
