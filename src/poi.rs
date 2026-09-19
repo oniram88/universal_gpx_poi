@@ -103,7 +103,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     poi!("drinking_water", "WATER", "Water", "Droplet"),
     poi!("exit", "RACE OBSTACLE END", "Exit", "DoorOpen"),
     poi!("lodge", "REST AREA", "Lodging", "House"),
-    poi!("lodging", "LODGING", "Lodging", "Bed"),
+    poi!("lodging", "REST AREA", "Lodging", "Bed"),
     poi!("forest", "FOREST", "Forest", "Trees"),
     poi!("gas_station", "GAS STATION", "Car", "Fuel"),
     poi!(
@@ -112,7 +112,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
         "Road",
         "TrainFront"
     ),
-    poi!("hotel", "LODGING", "Hotel", "Bed"),
+    poi!("hotel", "REST AREA", "Hotel", "Bed"),
     poi!("house", "STORE", "Home", "House"),
     poi!("information", "INFO", "Information", "Info"),
     poi!("park", "PARK", "Meadow", "TreeDeciduous"),
@@ -122,7 +122,7 @@ static POI_DICTIONARY: &[PoiTranslation] = &[
     poi!("restaurant", "FOOD", "Restaurant", "Utensils"),
     poi!("restricted_area", "DANGER", "Danger", "Construction"),
     poi!("restroom", "AID STATION", "Restroom", "Toilet"),
-    poi!("road", "ROAD", "Road", "BrickWall"),
+    poi!("road", "GENERIC", "Road", "BrickWall"),
     poi!("scenic_area", "OVERLOOK", "Sight", "Binoculars"),
     poi!("shelter", "SHELTER", "Camp", "Tent"),
     poi!(
